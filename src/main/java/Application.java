@@ -33,7 +33,6 @@ public class Application {
 //    Model
     private JFileChooser inputChooser;
     private Key key;
-    private Block[] blocks;
     private boolean canProcess = false;
     private boolean loadedFromFile = false;
 
@@ -53,9 +52,6 @@ public class Application {
         encryptButton.setEnabled(canProcess);
         decryptButton.setEnabled(canProcess);
 
-//        Info
-        infoBlockSize.setText(Constants.BLOCK_SIZE + "x" + Constants.BLOCK_SIZE);
-
 //        Actions
         inputFile.addActionListener(e -> inputFileDialog());
         inputText.addActionListener(e -> inputTextDialog());
@@ -71,15 +67,15 @@ public class Application {
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             String selectedFile = inputChooser.getSelectedFile().getPath();
             try {
-                blocks = DataUtils.loadFile(selectedFile);
-                String message = blocks.length + " data blocks have been loaded.";
-                log("File " + inputChooser.getSelectedFile().getName() + " loaded.");
-                log(message);
+//                blocks = DataUtils.loadFile(selectedFile);
+//                String message = blocks.length + " data blocks have been loaded.";
+//                log("File " + inputChooser.getSelectedFile().getName() + " loaded.");
+//                log(message);
+//                TODO: Implement file loading
                 infoInputFile.setText(inputChooser.getSelectedFile().getName());
-                infoBlocksCount.setText(Integer.toString(blocks.length));
                 updateButtons();
                 loadedFromFile = true;
-            } catch (IOException ex) {
+            } catch (Exception ex) {
                 String message = "Could not load file: " + selectedFile;
                 log(message);
                 JOptionPane.showMessageDialog(frame, message, "Loading error", JOptionPane.ERROR_MESSAGE);
@@ -88,16 +84,18 @@ public class Application {
     }
 
     public void inputTextDialog() {
-        String input = inputTextArea.getText();
-        blocks = DataUtils.loadText(input);
-        log("Text has been loaded.");
-        log(blocks.length + " data blocks have been loaded.");
+//        String input = inputTextArea.getText();
+//        blocks = DataUtils.loadText(input);
+//        log("Text has been loaded.");
+//        log(blocks.length + " data blocks have been loaded.");
+//        TODO: Implement text loading
         loadedFromFile = false;
         updateButtons();
     }
 
     private void enterCipherKey() {
         String keyString = JOptionPane.showInputDialog(frame, "Enter cipher key (16 characters):");
+//        TODO: Change key conditions
         if (keyString != null && keyString.length() == 16) {
             updateCipherKey(keyString);
             log("Cipher key added.");
@@ -113,10 +111,12 @@ public class Application {
             String selectedFile = keyChooser.getSelectedFile().getPath();
             try {
                 byte[] bytes = DataUtils.loadBytes(selectedFile);
+//                TODO: Update cipher key import conditions
                 if (bytes.length == 16) {
-                    key = new Key(bytes);
-                    updateCipherKey(new String(bytes));
-                    log("Cipher key imported.");
+//                    key = new Key(bytes);
+//                    updateCipherKey(new String(bytes));
+//                    log("Cipher key imported.");
+//                    TODO: Implement cipher key import
                 } else {
                     JOptionPane.showMessageDialog(frame,"Cipher key must have exactly 16 characters.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -135,9 +135,10 @@ public class Application {
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 String selectedPath = keyChooser.getSelectedFile().getAbsolutePath();
                 try {
-                    DataUtils.saveBytes(key.getBytes(), selectedPath);
-                    log("Cipher key exported.");
-                } catch (IOException ex) {
+//                    DataUtils.saveBytes(key.getBytes(), selectedPath);
+//                    log("Cipher key exported.");
+//                    TODO: Implement cipher key export
+                } catch (Exception ex) {
                     String message = "Could not save file: " + selectedPath;
                     log(message);
                     JOptionPane.showMessageDialog(frame, message, "Save error", JOptionPane.ERROR_MESSAGE);
@@ -149,7 +150,8 @@ public class Application {
     }
 
     private void updateCipherKey(String keyString) {
-        key = new Key(keyString);
+//        key = new Key(keyString);
+//        TODO: Implement key display method
         StringBuilder sb = new StringBuilder();
 
         for (char c : keyString.toCharArray()) {
@@ -161,14 +163,16 @@ public class Application {
     }
 
     private void encrypt() {
-        if (key != null && blocks != null) {
+        if (key != null) {
             canProcess = false;
             _updateButtons();
 
             log("Preparing encryption...");
-            Encryption encryption = new Encryption(blocks, key);
+//            Encryption encryption = new Encryption(blocks, key);
+//            TODO: Uncomment encryption instance
             log("Starting encryption...");
-            encryption.encrypt();
+//            encryption.encrypt();
+//            TODO: Uncomment encrypt action
             log("Encryption completed successfully.");
 
             if (loadedFromFile) {
@@ -177,16 +181,18 @@ public class Application {
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
                     String selectedPath = keyChooser.getSelectedFile().getAbsolutePath();
                     try {
-                        DataUtils.saveFile(encryption.getBlocks(), selectedPath);
+//                        DataUtils.saveFile(encryption.getBlocks(), selectedPath);
+//                        TODO: Implement encrypted file save
                         log("Encrypted data saved: " + selectedPath);
-                    } catch (IOException ex) {
+                    } catch (Exception ex) {
                         String message = "Could not save file: " + selectedPath;
                         log(message);
                         JOptionPane.showMessageDialog(frame, message, "Save error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             } else {
-                outputTextArea.setText(DataUtils.saveText(encryption.getBlocks()));
+//                outputTextArea.setText(DataUtils.saveText(encryption.getBlocks()));
+//                TODO: Implement encrypted text display
             }
             canProcess = true;
             _updateButtons();
@@ -194,14 +200,16 @@ public class Application {
     }
 
     private void decrypt() {
-        if (key != null && blocks != null) {
+        if (key != null) {
             canProcess = false;
             _updateButtons();
 
             log("Preparing decryption...");
-            Decryption decryption = new Decryption(blocks, key);
+//            Decryption decryption = new Decryption(blocks, key);
+//            TODO: Uncomment decryption instance
             log("Starting decryption...");
-            decryption.decrypt();
+//            decryption.decrypt();
+//            TODO: Uncomment decrypt action
             log("Decryption completed successfully.");
 
             if (loadedFromFile) {
@@ -210,16 +218,18 @@ public class Application {
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
                     String selectedPath = keyChooser.getSelectedFile().getAbsolutePath();
                     try {
-                        DataUtils.saveFile(decryption.getBlocks(), selectedPath);
+//                        DataUtils.saveFile(decryption.getBlocks(), selectedPath);
+//                        TODO: Implement encrypted file save
                         log("Decrypted data saved: " + selectedPath);
-                    } catch (IOException ex) {
+                    } catch (Exception ex) {
                         String message = "Could not save file: " + selectedPath;
                         log(message);
                         JOptionPane.showMessageDialog(frame, message, "Save error", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             } else {
-                outputTextArea.setText(DataUtils.saveText(decryption.getBlocks()));
+//                outputTextArea.setText(DataUtils.saveText(decryption.getBlocks()));
+//                TODO: Implement decrypted text display
             }
 
             canProcess = true;
@@ -240,11 +250,12 @@ public class Application {
     }
 
     private void updateButtons() {
-        if (blocks != null && blocks.length > 0 && key != null) {
-            canProcess = true;
-        } else {
-            canProcess = false;
-        }
+//        TODO: Implement update buttons method
+//        if (blocks != null && blocks.length > 0 && key != null) {
+//            canProcess = true;
+//        } else {
+//            canProcess = false;
+//        }
         _updateButtons();
     }
 
