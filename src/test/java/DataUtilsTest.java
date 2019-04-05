@@ -1,4 +1,4 @@
-import aes.*;
+import elgamal.*;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -8,7 +8,7 @@ class DataUtilsTest {
     @Test
     void loadFile() {
         try {
-            //aes.Block[] blocks_original = aes.DataUtils.loadFile("data/input.txt");
+            //elgamal.Block[] blocks_original = elgamal.DataUtils.loadFile("data/input.txt");
             Block[] blocks = DataUtils.loadFile("data/input.jpg");
             Encryption encryption = new Encryption(blocks, new Key("secretpassword12"));
             encryption.encrypt();

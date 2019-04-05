@@ -1,6 +1,6 @@
-import aes.Constants;
-import aes.Key;
-import aes.RoundKeys;
+import elgamal.Constants;
+import elgamal.Key;
+import elgamal.RoundKeys;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

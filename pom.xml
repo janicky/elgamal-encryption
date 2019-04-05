@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>foundations-of-cryptography</groupId>
-    <artifactId>aes-encryption</artifactId>
+    <artifactId>elgamal-encryption</artifactId>
     <version>1.0-SNAPSHOT</version>
     <build>
         <plugins>

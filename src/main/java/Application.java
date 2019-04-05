@@ -1,11 +1,9 @@
-import aes.*;
-import org.w3c.dom.Text;
+import elgamal.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.text.DefaultCaret;
 import java.awt.*;
-import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

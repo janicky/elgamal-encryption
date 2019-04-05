@@ -1,5 +1,5 @@
-import aes.Block;
-import aes.Constants;
+import elgamal.Block;
+import elgamal.Constants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

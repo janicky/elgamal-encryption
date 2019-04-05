@@ -1,4 +1,4 @@
-import aes.Key;
+import elgamal.Key;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

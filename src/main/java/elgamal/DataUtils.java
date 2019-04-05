@@ -1,4 +1,4 @@
-package aes;
+package elgamal;
 
 import java.io.FileOutputStream;
 import java.io.IOException;

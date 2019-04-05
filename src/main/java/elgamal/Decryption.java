@@ -1,4 +1,4 @@
-package aes;
+package elgamal;
 
 public class Decryption extends Cryptography {
 
