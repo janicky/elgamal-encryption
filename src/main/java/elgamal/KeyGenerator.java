@@ -1,8 +1,15 @@
 package elgamal;
 
 public class KeyGenerator {
+
+    String p;
+    String g;
+    String a;
+
     public void generate() {
-        String p = generateP();
+        p = generateP();
+        g = generateG(p);
+        a = generateG(p);
     }
 
     private String generateP() {
@@ -19,7 +26,7 @@ public class KeyGenerator {
         return sb.toString();
     }
 
-    private String generateG(String p) {
+    private String generateG(final String p) {
         StringBuilder sb = new StringBuilder();
         int digitsShift = Operations.getRandomNumberInRange(2, 5);
         for (int i = 0; i < p.length() - digitsShift; i++) {
