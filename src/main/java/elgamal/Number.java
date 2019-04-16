@@ -19,6 +19,29 @@ public class Number {
         return (byte) (digit - '0');
     }
 
+    public Number add(Number number) {
+        byte[] a = (digits.length >= number.getDigits().length ? digits : number.getDigits());
+        byte[] b = (digits.length < number.getDigits().length ? number.getDigits() : digits);
+        byte[] tmp = new byte[a.length + 1];
+
+        byte carry = 0;
+        for (int i = 0; i <= a.length; i++) {
+                if (b.length >= i - 1) {
+                    tmp[i] = (byte)((digits[i] + b[i] + carry) % 10);
+                    carry = (byte)((digits[i] + b[i] + carry) / 10);
+                } else {
+                    tmp[i] = (byte)(digits[i] + carry);
+                    carry = 0;
+                }
+        }
+
+        return new Number("0");
+    }
+
+    public byte[] getDigits() {
+        return digits;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
