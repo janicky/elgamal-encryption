@@ -14,6 +14,11 @@ class NumberTest {
     }
 
     @Test
+    void construct() {
+        assertEquals(number.toString(), "12313871289371238912");
+    }
+
+    @Test
     void charToByte() {
         byte digit = Number.charToByte('1');
         assertEquals(1, digit);
