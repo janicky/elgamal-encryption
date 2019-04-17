@@ -77,6 +77,14 @@ class NumberTest {
     }
 
     @Test
+    void multiply() {
+        Number number1 = new Number("123");
+        Number number2 = new Number("123");
+        Number result1 = number1.multiply(number2);
+        assertEquals(new Number("15129"), result1);
+    }
+
+    @Test
     void isZero() {
         Number number1 = new Number("0");
         assertTrue(number1.isZero());

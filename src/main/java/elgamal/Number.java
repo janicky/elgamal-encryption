@@ -100,11 +100,19 @@ public class Number {
     }
 
     public Number multiply(Number number) {
-        byte[] a = digits;
-        byte[] b = number.getDigits();
+        Number product = Number.ZERO;
+        Number tmp = new Number(number.getDigits());
 
-
-        return null;
+        while (!tmp.isZero()) {
+            product = product.add(this);
+            try {
+                tmp = tmp.subtract(Number.ONE);
+            } catch (NegativeNumberException e) {
+                e.printStackTrace();
+                break;
+            }
+        }
+        return product;
     }
 
     public boolean isZero() {
