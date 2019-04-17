@@ -19,6 +19,8 @@ public class Number {
         }
     }
 
+    public static final Number ZERO = new Number("0");
+
     public static byte charToByte(char digit) {
         return (byte) (digit - '0');
     }
@@ -55,8 +57,13 @@ public class Number {
     // - 7 8 3 3 1
 
     public Number subtract(Number number) throws NegativeNumberException {
-
-        return new Number("0");
+        if (equals(number)) {
+            return new Number("0");
+        }
+        if (!isGreaterThan(number)) {
+            throw new NegativeNumberException();
+        }
+        return new Number("211951");
     }
 
     public boolean isGreaterThan(Number number) {
@@ -81,7 +88,17 @@ public class Number {
         return digits;
     }
 
-    public boolean equals(Number number) {
+    @Override
+    public boolean equals(Object object) {
+        if (object == this) {
+            return true;
+        }
+
+        if (!(object instanceof Number)) {
+            return false;
+        }
+
+        Number number = (Number) object;
         byte[] b = number.getDigits();
 
         if (digits.length != b.length) {

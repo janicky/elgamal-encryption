@@ -1,5 +1,6 @@
 package elgamal;
 
+import elgamal.exceptions.NegativeNumberException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -61,6 +62,14 @@ class NumberTest {
         Number number3 = new Number("1");
         Number number4 = new Number("99999999999999999999999999");
         assertEquals("100000000000000000000000000", number3.add(number4).toString());
+    }
+
+    @Test
+    void subtract() throws NegativeNumberException {
+        Number number1 = new Number("111111221111111111111111133111111");
+        Number number2 = new Number("111111221111111111111111133111111");
+        Number result = number1.subtract(number2);
+        assertEquals(Number.ZERO, result);
     }
 
     @Test
