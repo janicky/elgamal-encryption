@@ -70,6 +70,10 @@ class NumberTest {
         Number number2 = new Number("111111221111111111111111133111111");
         Number result = number1.subtract(number2);
         assertEquals(Number.ZERO, result);
+
+        Number number3 = new Number("306401");
+        Number number4 = new Number("243321");
+        System.out.println(number3.subtract(number4));
     }
 
     @Test

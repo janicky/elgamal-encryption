@@ -63,7 +63,26 @@ public class Number {
         if (!isGreaterThan(number)) {
             throw new NegativeNumberException();
         }
-        return new Number("211951");
+
+        byte[] a = digits;
+        byte[] b = number.getDigits();
+        byte[] tmp = new byte[a.length];
+
+//        byte borrow = 0;
+//        for (int i = 0; i <= a.length; i++) {
+//            if (b.length > i) {
+//                tmp[i] = (byte)((a[i] + b[i] + borrow) % 10);
+//                borrow = (byte)((a[i] + b[i] + borrow) / 10);
+//            } else if (a.length > i) {
+//                tmp[i] = (byte)((a[i] + borrow) % 10);
+//                borrow = (byte)((a[i] + borrow) / 10);
+//            } else {
+//                tmp[i] = borrow;
+//                borrow = 0;
+//            }
+//        }
+
+        return new Number("0");
     }
 
     public boolean isGreaterThan(Number number) {
