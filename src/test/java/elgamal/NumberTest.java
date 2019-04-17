@@ -42,6 +42,17 @@ class NumberTest {
     }
 
     @Test
+    void equals() {
+        Number number1 = new Number("11111111111111111111");
+        Number number2 = new Number("11111111111111111111");
+        assertTrue(number1.equals(number2));
+
+        Number number3 = new Number("11111111111111211111");
+        Number number4 = new Number("11111111111111111111");
+        assertFalse(number3.equals(number4));
+    }
+
+    @Test
     void add() {
         Number number1 = new Number("1111111111111111111111111");
         Number number2 = new Number("22222222222222222222222222");

@@ -81,6 +81,21 @@ public class Number {
         return digits;
     }
 
+    public boolean equals(Number number) {
+        byte[] b = number.getDigits();
+
+        if (digits.length != b.length) {
+            return false;
+        }
+
+        for (int i = 0; i < digits.length; i++) {
+            if (digits[i] != b[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
