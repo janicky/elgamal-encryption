@@ -1,5 +1,7 @@
 package elgamal;
 
+import elgamal.exceptions.NegativeNumberException;
+
 import java.util.Arrays;
 
 public class Number {
@@ -44,6 +46,35 @@ public class Number {
             tmp = Arrays.copyOfRange(tmp, 0, tmp.length - 1);
         }
         return new Number(tmp);
+    }
+
+      // 5 6 0 8 1 -> [1, 8, 0, 6, 5]
+      // -
+      // 8 7 7 5 0 -> [0, 5, 7, 7, 8]
+      // =
+    // - 7 8 3 3 1
+
+    public Number subtract(Number number) throws NegativeNumberException {
+
+        return new Number("0");
+    }
+
+    public boolean isGreaterThan(Number number) {
+        if (digits.length < number.getDigits().length) {
+            return false;
+        } else if (digits.length > number.getDigits().length) {
+            return true;
+        }
+
+        byte[] b = number.getDigits();
+        for (int i = digits.length - 1; i >= 0; i--) {
+            if (b[i] > digits[i]) {
+                return false;
+            } else if (b[i] < digits[i]) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public byte[] getDigits() {
