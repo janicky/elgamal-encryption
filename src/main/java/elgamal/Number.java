@@ -20,6 +20,7 @@ public class Number {
     }
 
     public static final Number ZERO = new Number("0");
+    public static final Number ONE = new Number("1");
 
     public static byte charToByte(char digit) {
         return (byte) (digit - '0');
@@ -96,6 +97,26 @@ public class Number {
         }
 
         return new Number(tmp);
+    }
+
+    public Number multiply(Number number) {
+        byte[] a = digits;
+        byte[] b = number.getDigits();
+
+
+        return null;
+    }
+
+    public boolean isZero() {
+        if (digits.length == 0) {
+            return true;
+        }
+        for (int i = 0; i < digits.length; i++) {
+            if (digits[i] != 0) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public boolean isGreaterThan(Number number) {

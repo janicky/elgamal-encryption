@@ -77,6 +77,18 @@ class NumberTest {
     }
 
     @Test
+    void isZero() {
+        Number number1 = new Number("0");
+        assertTrue(number1.isZero());
+        Number number2 = new Number("1");
+        assertFalse(number2.isZero());
+        Number number3 = new Number("12321311");
+        assertFalse(number3.isZero());
+        Number number4 = new Number("0000");
+        assertTrue(number4.isZero());
+    }
+
+    @Test
     void charToByte() {
         byte digit = Number.charToByte('1');
         assertEquals(1, digit);
