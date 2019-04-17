@@ -115,6 +115,23 @@ public class Number {
         return product;
     }
 
+    public Number power(Number number) {
+        Number result = ONE;
+        Number exponent = new Number(number.getDigits());
+
+        while (!exponent.isZero()) {
+            result = result.multiply(this);
+            try {
+                exponent = exponent.subtract(ONE);
+            } catch (NegativeNumberException e) {
+                e.printStackTrace();
+                break;
+            }
+        }
+
+        return result;
+    }
+
     public boolean isZero() {
         if (digits.length == 0) {
             return true;

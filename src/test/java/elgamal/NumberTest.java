@@ -85,6 +85,14 @@ class NumberTest {
     }
 
     @Test
+    void power() {
+        Number number1 = new Number("5");
+        Number number2 = new Number("3");
+        Number result = number1.power(number2);
+        assertEquals(new Number("125"), result);
+    }
+
+    @Test
     void isZero() {
         Number number1 = new Number("0");
         assertTrue(number1.isZero());
