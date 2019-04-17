@@ -68,21 +68,34 @@ public class Number {
         byte[] b = number.getDigits();
         byte[] tmp = new byte[a.length];
 
-//        byte borrow = 0;
-//        for (int i = 0; i <= a.length; i++) {
-//            if (b.length > i) {
-//                tmp[i] = (byte)((a[i] + b[i] + borrow) % 10);
-//                borrow = (byte)((a[i] + b[i] + borrow) / 10);
-//            } else if (a.length > i) {
-//                tmp[i] = (byte)((a[i] + borrow) % 10);
-//                borrow = (byte)((a[i] + borrow) / 10);
-//            } else {
-//                tmp[i] = borrow;
-//                borrow = 0;
-//            }
-//        }
+        byte borrow = 0;
+        for (int i = 0; i < a.length; i++) {
+            if (b.length > i) {
+                tmp[i] = (byte)(a[i] - b[i] - borrow);
+            } else {
+                tmp[i] = (byte)(a[i] - borrow);
+            }
+            borrow = 0;
+            if (tmp[i] < 0) {
+                tmp[i] += 10;
+                borrow = 1;
+            }
+        }
 
-        return new Number("0");
+        int zeros = 0;
+        for (int i = tmp.length - 1; i > 0; i--) {
+            if (tmp[i] == 0) {
+                zeros++;
+            } else {
+                break;
+            }
+        }
+
+        if (zeros > 0) {
+            tmp = Arrays.copyOfRange(tmp, 0, tmp.length - zeros);
+        }
+
+        return new Number(tmp);
     }
 
     public boolean isGreaterThan(Number number) {

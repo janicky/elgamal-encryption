@@ -73,7 +73,7 @@ class NumberTest {
 
         Number number3 = new Number("306401");
         Number number4 = new Number("243321");
-        System.out.println(number3.subtract(number4));
+        assertEquals(new Number("63080"), number3.subtract(number4));
     }
 
     @Test
