@@ -121,8 +121,14 @@ class NumberTest {
         Number number1 = new Number("2123");
         Number number2 = new Number("313");
         Number number3 = new Number("52");
-        Number result = number1.modPower(number2, number3);
-        System.out.println(result);
+        Number result1 = number1.modPower(number2, number3);
+        assertEquals(new Number("43"), result1);
+
+        Number number4 = new Number("2");
+        Number number5 = new Number("3");
+        Number number6 = new Number("5");
+        Number result = number4.modPower(number5, number6);
+        assertEquals(new Number("3"), result);
     }
 
     @Test
