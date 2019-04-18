@@ -1,5 +1,6 @@
 package elgamal;
 
+import elgamal.exceptions.DivideRestException;
 import elgamal.exceptions.NegativeNumberException;
 
 import java.util.Arrays;
@@ -113,6 +114,22 @@ public class Number {
             }
         }
         return product;
+    }
+
+    public Number divide(Number number) throws DivideRestException {
+        Number product = new Number(digits);
+        Number tmp = ZERO;
+
+        while (!product.isZero()) {
+            try {
+                product = product.subtract(number);
+                tmp = tmp.add(ONE);
+            } catch (NegativeNumberException e) {
+                throw new DivideRestException();
+            }
+        }
+
+        return tmp;
     }
 
     public Number power(Number number) {

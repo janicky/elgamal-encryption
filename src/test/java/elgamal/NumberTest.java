@@ -1,5 +1,6 @@
 package elgamal;
 
+import elgamal.exceptions.DivideRestException;
 import elgamal.exceptions.NegativeNumberException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -82,6 +83,14 @@ class NumberTest {
         Number number2 = new Number("123");
         Number result1 = number1.multiply(number2);
         assertEquals(new Number("15129"), result1);
+    }
+
+    @Test
+    void divide() throws DivideRestException {
+        Number number1 = new Number("125");
+        Number number2 = new Number("5");
+        Number result1 = number1.divide(number2);
+        assertEquals(new Number("25"), result1);
     }
 
     @Test
