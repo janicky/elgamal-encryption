@@ -13,6 +13,13 @@ public class Number {
         this.digits = digits;
     }
 
+    public Number(byte[] digits, boolean reversed) {
+        int index = 0;
+        for (int i = digits.length - 1; i > 0; i--) {
+            this.digits[index++] = digits[i];
+        }
+    }
+
     public Number(String digits) {
         this.digits = new byte[digits.length()];
         for (int i = digits.length() - 1, l = 0; i >= 0; i--, l++) {
@@ -22,6 +29,7 @@ public class Number {
 
     public static final Number ZERO = new Number("0");
     public static final Number ONE = new Number("1");
+    public static final Number TWO = new Number("2");
 
     public static byte charToByte(char digit) {
         return (byte) (digit - '0');
@@ -51,12 +59,6 @@ public class Number {
         }
         return new Number(tmp);
     }
-
-      // 5 6 0 8 1 -> [1, 8, 0, 6, 5]
-      // -
-      // 8 7 7 5 0 -> [0, 5, 7, 7, 8]
-      // =
-    // - 7 8 3 3 1
 
     public Number subtract(Number number) throws NegativeNumberException {
         if (equals(number)) {
@@ -181,6 +183,25 @@ public class Number {
 
     public byte[] getDigits() {
         return digits;
+    }
+
+    public boolean isPrime() {
+        if (this.equals(ONE) || this.equals(ZERO)) {
+            return false;
+        }
+
+        Number iterator = TWO;
+        while (true) {
+            try {
+                if (this.equals(iterator)) {
+                    return true;
+                }
+                this.divide(iterator);
+                return false;
+            } catch (DivideRestException e) {
+                iterator = iterator.add(ONE);
+            }
+        }
     }
 
     @Override

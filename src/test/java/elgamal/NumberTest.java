@@ -114,6 +114,17 @@ class NumberTest {
     }
 
     @Test
+    void isPrime() {
+        assertFalse((new Number("1")).isPrime());
+        assertTrue((new Number("2")).isPrime());
+        assertTrue((new Number("3")).isPrime());
+        assertTrue((new Number("5")).isPrime());
+        assertTrue((new Number("7")).isPrime());
+        assertTrue((new Number("11")).isPrime());
+        assertFalse((new Number("12")).isPrime());
+    }
+
+    @Test
     void charToByte() {
         byte digit = Number.charToByte('1');
         assertEquals(1, digit);
