@@ -3,7 +3,9 @@ package elgamal;
 import elgamal.exceptions.DivideRestException;
 import elgamal.exceptions.NegativeNumberException;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Number {
 
@@ -159,11 +161,52 @@ public class Number {
         }
         Number iterator = ONE;
         Number product = ZERO;
-        while (this.isGreaterThan(product)) {
+        while (this.isEqualOrGreaterThan(product)) {
             product = m.multiply(iterator);
             iterator = iterator.add(ONE);
         }
         return this.subtract(product.subtract(m));
+    }
+
+    public boolean[] getBinary() {
+        List<Boolean> tmp = new ArrayList<>();
+        Number number = new Number(this.getDigits());
+
+        while (!number.isZero()) {
+            try {
+                System.out.println(number + " " + number.mod(TWO));
+                tmp.add(number.mod(TWO).isZero());
+            } catch (NegativeNumberException e) {
+                tmp.add(true);
+            }
+            try {
+                number = number.divide(TWO);
+            } catch (DivideRestException e) {
+                break;
+            }
+        }
+
+        boolean[] output = new boolean[tmp.size()];
+        for (int i = 0; i < tmp.size(); i++) {
+            output[i] = tmp.get(i);
+        }
+        return output;
+    }
+
+    public Number modPower(Number number, Number m) throws NegativeNumberException {
+        Number result = ONE;
+        Number x = this.mod(m);
+        boolean[] booleanNumber = number.getBinary();
+
+        for (int i = 0; i < number.getDigits().length; i++) {
+            x = x.mod(m);
+            if (booleanNumber[i]) {
+                result = result.multiply(x).mod(m);
+            }
+            x = x.multiply(x);
+        }
+
+        return result;
     }
 
     public boolean isZero() {
@@ -194,6 +237,10 @@ public class Number {
             }
         }
         return false;
+    }
+
+    public boolean isEqualOrGreaterThan(Number number) {
+        return equals(number) || isGreaterThan(number);
     }
 
     public byte[] getDigits() {

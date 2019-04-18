@@ -5,6 +5,8 @@ import elgamal.exceptions.NegativeNumberException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class NumberTest {
@@ -105,8 +107,28 @@ class NumberTest {
     void mod() throws NegativeNumberException {
         Number number1 = new Number("951231");
         Number number2 = new Number("1314");
-        Number result = number1.mod(number2);
-        assertEquals(new Number("1209"), result);
+        Number result1 = number1.mod(number2);
+        assertEquals(new Number("1209"), result1);
+
+        Number number3 = new Number("16");
+        Number number4 = new Number("2");
+        Number result2 = number3.mod(number4);
+        assertEquals(new Number("0"), result2);
+    }
+
+    @Test
+    void modPower() throws NegativeNumberException {
+        Number number1 = new Number("2");
+        Number number2 = new Number("3");
+        Number number3 = new Number("5");
+        Number result = number1.modPower(number2, number3);
+        System.out.println(result);
+    }
+
+    @Test
+    void getBinary() {
+        Number number1 = new Number("8");
+        System.out.println(Arrays.toString(number1.getBinary()));
     }
 
     @Test
