@@ -174,8 +174,7 @@ public class Number {
 
         while (!number.isZero()) {
             try {
-                System.out.println(number + " " + number.mod(TWO));
-                tmp.add(number.mod(TWO).isZero());
+                tmp.add(!number.mod(TWO).isZero());
             } catch (NegativeNumberException e) {
                 tmp.add(true);
             }

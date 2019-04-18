@@ -128,7 +128,8 @@ class NumberTest {
     @Test
     void getBinary() {
         Number number1 = new Number("8");
-        System.out.println(Arrays.toString(number1.getBinary()));
+        boolean[] expected = new boolean[] { false, false, false, true };
+        assertArrayEquals(expected, number1.getBinary());
     }
 
     @Test
