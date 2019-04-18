@@ -14,10 +14,12 @@ public class Number {
     }
 
     public Number(byte[] digits, boolean reversed) {
+        byte tmp[] = new byte[digits.length];
         int index = 0;
-        for (int i = digits.length - 1; i > 0; i--) {
-            this.digits[index++] = digits[i];
+        for (int i = digits.length - 1; i >= 0; i--) {
+            tmp[index++] = digits[i];
         }
+        this.digits = tmp;
     }
 
     public Number(String digits) {
@@ -149,6 +151,19 @@ public class Number {
         }
 
         return result;
+    }
+
+    public Number mod(Number m) throws NegativeNumberException {
+        if (m.isZero()) {
+            throw new ArithmeticException("Divisor is zero");
+        }
+        Number iterator = ONE;
+        Number product = ZERO;
+        while (this.isGreaterThan(product)) {
+            product = m.multiply(iterator);
+            iterator = iterator.add(ONE);
+        }
+        return this.subtract(product.subtract(m));
     }
 
     public boolean isZero() {

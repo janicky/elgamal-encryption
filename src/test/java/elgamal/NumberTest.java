@@ -102,6 +102,14 @@ class NumberTest {
     }
 
     @Test
+    void mod() throws NegativeNumberException {
+        Number number1 = new Number("951231");
+        Number number2 = new Number("1314");
+        Number result = number1.mod(number2);
+        assertEquals(new Number("1209"), result);
+    }
+
+    @Test
     void isZero() {
         Number number1 = new Number("0");
         assertTrue(number1.isZero());
