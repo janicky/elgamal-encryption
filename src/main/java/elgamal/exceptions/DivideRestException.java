@@ -1,6 +1,6 @@
 package elgamal.exceptions;
 
-public class DivideRestException extends Throwable {
+public class DivideRestException extends Exception {
 
     public DivideRestException() {
         super();
