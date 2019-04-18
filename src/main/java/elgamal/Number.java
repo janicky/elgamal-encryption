@@ -168,6 +168,23 @@ public class Number {
         return this.subtract(product.subtract(m));
     }
 
+    public Number modPower(Number number, Number m) throws NegativeNumberException {
+        Number result = ONE;
+        Number x = this.mod(m);
+        boolean[] booleanNumber = number.getBinary();
+
+        for (int i = 0; i < booleanNumber.length; i++) {
+            x = x.mod(m);
+            if (booleanNumber[i]) {
+                result = result.multiply(x).mod(m);
+            }
+            x = x.multiply(x);
+        }
+
+        return result;
+    }
+
+
     public boolean[] getBinary() {
         List<Boolean> tmp = new ArrayList<>();
         Number number = new Number(this.getDigits());
@@ -181,7 +198,12 @@ public class Number {
             try {
                 number = number.divide(TWO);
             } catch (DivideRestException e) {
-                break;
+                try {
+                    number = number.subtract(ONE);
+                    number = number.divide(TWO);
+                } catch (Exception ex) {
+                    break;
+                }
             }
         }
 
@@ -190,22 +212,6 @@ public class Number {
             output[i] = tmp.get(i);
         }
         return output;
-    }
-
-    public Number modPower(Number number, Number m) throws NegativeNumberException {
-        Number result = ONE;
-        Number x = this.mod(m);
-        boolean[] booleanNumber = number.getBinary();
-
-        for (int i = 0; i < number.getDigits().length; i++) {
-            x = x.mod(m);
-            if (booleanNumber[i]) {
-                result = result.multiply(x).mod(m);
-            }
-            x = x.multiply(x);
-        }
-
-        return result;
     }
 
     public boolean isZero() {

@@ -118,9 +118,9 @@ class NumberTest {
 
     @Test
     void modPower() throws NegativeNumberException {
-        Number number1 = new Number("2");
-        Number number2 = new Number("3");
-        Number number3 = new Number("5");
+        Number number1 = new Number("2123");
+        Number number2 = new Number("313");
+        Number number3 = new Number("52");
         Number result = number1.modPower(number2, number3);
         System.out.println(result);
     }
@@ -128,8 +128,12 @@ class NumberTest {
     @Test
     void getBinary() {
         Number number1 = new Number("8");
-        boolean[] expected = new boolean[] { false, false, false, true };
-        assertArrayEquals(expected, number1.getBinary());
+        boolean[] expected1 = new boolean[] { false, false, false, true };
+        assertArrayEquals(expected1, number1.getBinary());
+
+        Number number2 = new Number("9");
+        boolean[] expected2 = new boolean[] { true, false, false, true };
+        assertArrayEquals(expected2, number2.getBinary());
     }
 
     @Test
