@@ -24,6 +24,13 @@ public class Number {
         this.digits = tmp;
     }
 
+    public Number(List<Byte> digits) {
+        this.digits = new byte[digits.size()];
+        for (int i = 0; i < digits.size(); i++) {
+            this.digits[i] = digits.get(i);
+        }
+    }
+
     public Number(String digits) {
         this.digits = new byte[digits.length()];
         for (int i = digits.length() - 1, l = 0; i >= 0; i--, l++) {
@@ -90,65 +97,36 @@ public class Number {
             }
         }
 
-        int zeros = 0;
-        for (int i = tmp.length - 1; i > 0; i--) {
-            if (tmp[i] == 0) {
-                zeros++;
-            } else {
-                break;
-            }
-        }
-
-        if (zeros > 0) {
-            tmp = Arrays.copyOfRange(tmp, 0, tmp.length - zeros);
-        }
-
-        return new Number(tmp);
+        return new Number(deleteZeros(tmp));
     }
 
-//    public Number multiply(Number number) {
-//        Number product = Number.ZERO;
-//        Number tmp = new Number(number.getDigits());
-//
-//        while (!tmp.isZero()) {
-//            product = product.add(this);
-//            try {
-//                tmp = tmp.subtract(Number.ONE);
-//            } catch (NegativeNumberException e) {
-//                e.printStackTrace();
-//                break;
-//            }
-//        }
-//        return product;
-//    }
-
     public Number multiply(Number number){
-        List<Byte> tmp = new ArrayList<>();
-        byte [] a = getDigits();
-        byte [] b = number.getDigits();
-        int varJ = 0;
-        byte carry = 0, digit;
+        byte[] a = getDigits();
+        byte[] b = number.getDigits();
+        byte[] tmp = new byte[a.length + b.length];
+        byte digit;
 
-        for (int i = 0; i < number.getDigits().length; i++) {
-            tmp.add(number.getDigits()[i]);
+        for (int i = 0; i < number.getDigits().length + b.length; i++) {
+            tmp[i] = 0;
         }
 
+        int carry = 0;
         for (int i = 0; i < b.length; i++) {
-            carry = 0;
-            for (int j = i; j < a.length + i; j++) {
-                digit = (byte)(tmp.get(j) + (b[i] * a[j - i]) + carry);
-                carry = (byte)Math.floor(digit / 10);
-                tmp.set(j, (byte)(digit % 10));
-                varJ = j;
+            int j;
+
+            for (j = i; j < a.length + i; j++) {
+                digit = (byte)(tmp[j] + (b[i] * a[j - i]) + carry);
+                carry = (byte)(digit / 10);
+                tmp[j] = (byte)(digit % 10);
             }
             if (carry > 0) {
-                digit = (byte)(tmp.get(varJ) + carry);
-                carry = (byte)Math.floor(digit / 10);
-                tmp.set(varJ, (byte)(digit % 10));
+                digit = (byte)(tmp[j] + carry);
+                carry = (byte)(digit / 10);
+                tmp[j] = (byte)(digit % 10);
             }
         }
 
-        return new Number(digits);
+        return new Number(deleteZeros(tmp));
     }
 
     public Number divide(Number number) throws DivideRestException {
@@ -298,6 +276,24 @@ public class Number {
                 iterator = iterator.add(ONE);
             }
         }
+    }
+
+    public static byte[] deleteZeros(byte[] digits) {
+        byte[] tmp = digits;
+
+        int zeros = 0;
+        for (int i = digits.length - 1; i > 0; i--) {
+            if (digits[i] == 0) {
+                zeros++;
+            } else {
+                break;
+            }
+        }
+
+        if (zeros > 0) {
+            tmp = Arrays.copyOfRange(digits, 0, digits.length - zeros);
+        }
+        return tmp;
     }
 
     @Override

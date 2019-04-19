@@ -81,8 +81,8 @@ class NumberTest {
 
     @Test
     void multiply() {
-        Number number1 = new Number("123");
-        Number number2 = new Number("123");
+        Number number1 = new Number("566245234321432532523542352");
+        Number number2 = new Number("512523531421412414123414111");
         Number result1 = number1.multiply(number2);
         assertEquals(new Number("15129"), result1);
     }
@@ -129,6 +129,11 @@ class NumberTest {
         Number number6 = new Number("5");
         Number result = number4.modPower(number5, number6);
         assertEquals(new Number("3"), result);
+
+        Number number7 = new Number("1231232131231");
+        Number number8 = new Number("131232131241412");
+        Number number9 = new Number("51231232");
+        System.out.println(number7.modPower(number8, number9));
     }
 
     @Test
