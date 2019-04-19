@@ -10,6 +10,7 @@ import java.util.List;
 public class Number {
 
     private byte[] digits;
+    private boolean[] binaryNumber;
 
     public Number(byte[] digits) {
         this.digits = digits;
@@ -191,8 +192,11 @@ public class Number {
         return result;
     }
 
-
     public boolean[] getBinary() {
+        if (binaryNumber != null) {
+            return binaryNumber;
+        }
+
         List<Boolean> tmp = new ArrayList<>();
         Number number = new Number(this.getDigits());
 
@@ -214,11 +218,11 @@ public class Number {
             }
         }
 
-        boolean[] output = new boolean[tmp.size()];
+        binaryNumber = new boolean[tmp.size()];
         for (int i = 0; i < tmp.size(); i++) {
-            output[i] = tmp.get(i);
+            binaryNumber[i] = tmp.get(i);
         }
-        return output;
+        return binaryNumber;
     }
 
     public boolean isZero() {
