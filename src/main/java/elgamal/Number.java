@@ -106,20 +106,49 @@ public class Number {
         return new Number(tmp);
     }
 
-    public Number multiply(Number number) {
-        Number product = Number.ZERO;
-        Number tmp = new Number(number.getDigits());
+//    public Number multiply(Number number) {
+//        Number product = Number.ZERO;
+//        Number tmp = new Number(number.getDigits());
+//
+//        while (!tmp.isZero()) {
+//            product = product.add(this);
+//            try {
+//                tmp = tmp.subtract(Number.ONE);
+//            } catch (NegativeNumberException e) {
+//                e.printStackTrace();
+//                break;
+//            }
+//        }
+//        return product;
+//    }
 
-        while (!tmp.isZero()) {
-            product = product.add(this);
-            try {
-                tmp = tmp.subtract(Number.ONE);
-            } catch (NegativeNumberException e) {
-                e.printStackTrace();
-                break;
+    public Number multiply(Number number){
+        List<Byte> tmp = new ArrayList<>();
+        byte [] a = getDigits();
+        byte [] b = number.getDigits();
+        int varJ = 0;
+        byte carry = 0, digit;
+
+        for (int i = 0; i < number.getDigits().length; i++) {
+            tmp.add(number.getDigits()[i]);
+        }
+
+        for (int i = 0; i < b.length; i++) {
+            carry = 0;
+            for (int j = i; j < a.length + i; j++) {
+                digit = (byte)(tmp.get(j) + (b[i] * a[j - i]) + carry);
+                carry = (byte)Math.floor(digit / 10);
+                tmp.set(j, (byte)(digit % 10));
+                varJ = j;
+            }
+            if (carry > 0) {
+                digit = (byte)(tmp.get(varJ) + carry);
+                carry = (byte)Math.floor(digit / 10);
+                tmp.set(varJ, (byte)(digit % 10));
             }
         }
-        return product;
+
+        return new Number(digits);
     }
 
     public Number divide(Number number) throws DivideRestException {
