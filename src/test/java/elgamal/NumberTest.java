@@ -81,10 +81,10 @@ class NumberTest {
 
     @Test
     void multiply() {
-        Number number1 = new Number("566245234321432532523542352");
-        Number number2 = new Number("512523531421412414123414111");
+        Number number1 = new Number("12321353530149145");
+        Number number2 = new Number("1238713891319");
         Number result1 = number1.multiply(number2);
-        assertEquals(new Number("15129"), result1);
+        assertEquals(new Number("15262631777648144989390772255"), result1);
     }
 
     @Test

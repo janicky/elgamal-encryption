@@ -101,8 +101,8 @@ public class Number {
     }
 
     public Number multiply(Number number){
-        byte[] a = getDigits();
-        byte[] b = number.getDigits();
+        byte[] a = (digits.length > number.getDigits().length ? digits : number.getDigits());
+        byte[] b = (digits.length > number.getDigits().length ? number.getDigits() : digits);
         byte[] tmp = new byte[a.length + b.length];
         byte digit;
 
