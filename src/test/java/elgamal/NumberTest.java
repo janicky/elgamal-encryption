@@ -114,6 +114,8 @@ class NumberTest {
         Number number4 = new Number("2");
         Number result2 = number3.mod(number4);
         assertEquals(new Number("0"), result2);
+
+        System.out.println((new Number("12435819741987159847184239149721124").mod(new Number("12930813092178196182956189"))));
     }
 
     @Test
@@ -134,6 +136,12 @@ class NumberTest {
         Number number8 = new Number("131232131241412");
         Number number9 = new Number("51231232");
         System.out.println(number7.modPower(number8, number9));
+    }
+
+    @Test
+    void getValue() {
+        Number number1 = new Number("1231233");
+        System.out.println(number1.getValue());
     }
 
     @Test

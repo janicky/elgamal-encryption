@@ -11,6 +11,7 @@ public class Number {
 
     private byte[] digits;
     private boolean[] binaryNumber;
+    private long value = -1;
 
     public Number(byte[] digits) {
         this.digits = digits;
@@ -180,7 +181,6 @@ public class Number {
         Number result = ONE;
         Number x = this.mod(m);
         boolean[] booleanNumber = number.getBinary();
-
         for (int i = 0; i < booleanNumber.length; i++) {
             x = x.mod(m);
             if (booleanNumber[i]) {
@@ -189,7 +189,30 @@ public class Number {
             x = x.multiply(x);
         }
 
+
         return result;
+    }
+
+//    private Number setShiftLeft(int count) {
+//        Number tmp_number = new Number(digits);
+//        byte[] tmp = tmp_number.getDigits();
+//
+//        byte[] digits;
+//        if (count < 32) {
+//
+//        }
+//
+//    }
+
+    public long getValue() {
+        if (value != -1) {
+            return value;
+        }
+        value = 0;
+        for (int i = 0; i < digits.length; i++) {
+            value += digits[i] * Math.pow(10, i);
+        }
+        return value;
     }
 
     public boolean[] getBinary() {
