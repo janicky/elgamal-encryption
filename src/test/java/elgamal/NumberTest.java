@@ -141,7 +141,7 @@ class NumberTest {
     @Test
     void getValue() {
         Number number1 = new Number("1231233");
-        System.out.println(number1.getValue());
+        assertEquals(1231233, number1.getValue());
     }
 
     @Test
