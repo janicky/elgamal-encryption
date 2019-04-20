@@ -2,6 +2,7 @@ package elgamal;
 
 import elgamal.exceptions.DivideRestException;
 import elgamal.exceptions.NegativeNumberException;
+import elgamal.exceptions.OutOfRangeException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -204,9 +205,12 @@ public class Number {
 //
 //    }
 
-    public long getValue() {
+    public long getValue() throws OutOfRangeException {
         if (value != -1) {
             return value;
+        }
+        if (digits.length >= 32) {
+            throw new OutOfRangeException();
         }
         value = 0;
         for (int i = 0; i < digits.length; i++) {
@@ -214,6 +218,8 @@ public class Number {
         }
         return value;
     }
+
+//    public void setValue
 
     public boolean[] getBinary() {
         if (binaryNumber != null) {

@@ -2,6 +2,7 @@ package elgamal;
 
 import elgamal.exceptions.DivideRestException;
 import elgamal.exceptions.NegativeNumberException;
+import elgamal.exceptions.OutOfRangeException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -139,7 +140,7 @@ class NumberTest {
     }
 
     @Test
-    void getValue() {
+    void getValue() throws OutOfRangeException {
         Number number1 = new Number("1231233");
         assertEquals(1231233, number1.getValue());
     }
