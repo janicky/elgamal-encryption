@@ -12,6 +12,20 @@ public class Operations {
         return output;
     }
 
+    public static long powmod(long a, long e, long n){
+        long accum = 1;
+        long x = e;
+        long apow = a;
+        while (x != 0){
+            if ((x & 0x01) == 0x01){
+                accum = (accum * apow) % n;
+            };
+            x >>= 1;
+            apow = (apow * apow) % n;
+        };
+        return accum;
+    }
+
     public static int getRandomNumberInRange(int min, int max) {
         if (min >= max) {
             throw new IllegalArgumentException("max must be greater than min");

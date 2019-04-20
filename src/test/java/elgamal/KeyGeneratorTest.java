@@ -1,5 +1,6 @@
 package elgamal;
 
+import elgamal.exceptions.NegativeNumberException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,6 +18,11 @@ class KeyGeneratorTest {
     @Test
     void generateP() {
         keygen.generate();
-        System.out.println(keygen.g);
+    }
+
+    @Test
+    void fermatTest() throws NegativeNumberException {
+        Number number = new Number("3486612315657879987");
+        KeyGenerator.fermatTest(number, 2);
     }
 }

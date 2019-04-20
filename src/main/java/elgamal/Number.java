@@ -10,16 +10,16 @@ import java.util.List;
 
 public class Number {
 
-    private byte[] digits;
+    private int[] digits;
     private boolean[] binaryNumber;
     private long value = -1;
 
-    public Number(byte[] digits) {
+    public Number(int[] digits) {
         this.digits = digits;
     }
 
-    public Number(byte[] digits, boolean reversed) {
-        byte tmp[] = new byte[digits.length];
+    public Number(int[] digits, boolean reversed) {
+        int tmp[] = new int[digits.length];
         int index = 0;
         for (int i = digits.length - 1; i >= 0; i--) {
             tmp[index++] = digits[i];
@@ -28,14 +28,14 @@ public class Number {
     }
 
     public Number(List<Byte> digits) {
-        this.digits = new byte[digits.size()];
+        this.digits = new int[digits.size()];
         for (int i = 0; i < digits.size(); i++) {
             this.digits[i] = digits.get(i);
         }
     }
 
     public Number(String digits) {
-        this.digits = new byte[digits.length()];
+        this.digits = new int[digits.length()];
         for (int i = digits.length() - 1, l = 0; i >= 0; i--, l++) {
             this.digits[l] = charToByte(digits.charAt(i));
         }
@@ -50,18 +50,18 @@ public class Number {
     }
 
     public Number add(Number number) {
-        byte[] a = (digits.length >= number.getDigits().length ? digits : number.getDigits());
-        byte[] b = (digits.length >= number.getDigits().length ? number.getDigits() : digits);
-        byte[] tmp = new byte[a.length + 1];
+        int[] a = (digits.length >= number.getDigits().length ? digits : number.getDigits());
+        int[] b = (digits.length >= number.getDigits().length ? number.getDigits() : digits);
+        int[] tmp = new int[a.length + 1];
 
-        byte carry = 0;
+        int carry = 0;
         for (int i = 0; i <= a.length; i++) {
                 if (b.length > i) {
-                    tmp[i] = (byte)((a[i] + b[i] + carry) % 10);
-                    carry = (byte)((a[i] + b[i] + carry) / 10);
+                    tmp[i] = (a[i] + b[i] + carry) % 10;
+                    carry = (a[i] + b[i] + carry) / 10;
                 } else if (a.length > i) {
-                    tmp[i] = (byte)((a[i] + carry) % 10);
-                    carry = (byte)((a[i] + carry) / 10);
+                    tmp[i] = (a[i] + carry) % 10;
+                    carry = (a[i] + carry) / 10;
                 } else {
                     tmp[i] = carry;
                     carry = 0;
@@ -82,16 +82,16 @@ public class Number {
             throw new NegativeNumberException();
         }
 
-        byte[] a = digits;
-        byte[] b = number.getDigits();
-        byte[] tmp = new byte[a.length];
+        int[] a = digits;
+        int[] b = number.getDigits();
+        int[] tmp = new int[a.length];
 
-        byte borrow = 0;
+        int borrow = 0;
         for (int i = 0; i < a.length; i++) {
             if (b.length > i) {
-                tmp[i] = (byte)(a[i] - b[i] - borrow);
+                tmp[i] = a[i] - b[i] - borrow;
             } else {
-                tmp[i] = (byte)(a[i] - borrow);
+                tmp[i] = a[i] - borrow;
             }
             borrow = 0;
             if (tmp[i] < 0) {
@@ -104,10 +104,10 @@ public class Number {
     }
 
     public Number multiply(Number number){
-        byte[] a = (digits.length > number.getDigits().length ? digits : number.getDigits());
-        byte[] b = (digits.length > number.getDigits().length ? number.getDigits() : digits);
-        byte[] tmp = new byte[a.length + b.length];
-        byte digit;
+        int[] a = (digits.length > number.getDigits().length ? digits : number.getDigits());
+        int[] b = (digits.length > number.getDigits().length ? number.getDigits() : digits);
+        int[] tmp = new int[a.length + b.length];
+        int digit;
 
         for (int i = 0; i < number.getDigits().length + b.length; i++) {
             tmp[i] = 0;
@@ -118,14 +118,14 @@ public class Number {
             int j;
 
             for (j = i; j < a.length + i; j++) {
-                digit = (byte)(tmp[j] + (b[i] * a[j - i]) + carry);
-                carry = (byte)(digit / 10);
-                tmp[j] = (byte)(digit % 10);
+                digit = tmp[j] + (b[i] * a[j - i]) + carry;
+                carry = digit / 10;
+                tmp[j] = digit % 10;
             }
             if (carry > 0) {
-                digit = (byte)(tmp[j] + carry);
-                carry = (byte)(digit / 10);
-                tmp[j] = (byte)(digit % 10);
+                digit = tmp[j] + carry;
+                carry = digit / 10;
+                tmp[j] = digit % 10;
             }
         }
 
@@ -194,16 +194,41 @@ public class Number {
         return result;
     }
 
-//    private Number setShiftLeft(int count) {
-//        Number tmp_number = new Number(digits);
+    private void setShiftLeft(Number number, int count) throws OutOfRangeException {
+        int[] new_digits;
+        int digits_length;
+
+        if (number.getValue() <= Long.MAX_VALUE) {
+            if (count < 32) {
+                number.setValue(number.getValue() << count);
+                return;
+            }
+            new_digits = new int[1];
+            new_digits[0] = (int) number.getValue();
+            digits_length = 1;
+        } else {
+            new_digits = number.getDigits();
+            digits_length = new_digits.length;
+        }
+
+        int digits_count = count >> 5;
+        count &= 31;
+        int new_len = digits_length + digits_count;
+
+        if (count == 0) {
+//            TODO: Realloc
+            for (int i = digits_length - 1; i > 0; i--) {
+                digits[i + digits_count] = new_digits[i];
+            }
+        } else {
+            new_len++;
+            int shift_out = MPN.lshift(digits, digits_count, new_digits, digits_length, count);
+        }
+
 //        byte[] tmp = tmp_number.getDigits();
-//
 //        byte[] digits;
-//        if (count < 32) {
-//
-//        }
-//
-//    }
+
+    }
 
     public long getValue() throws OutOfRangeException {
         if (value != -1) {
@@ -223,13 +248,14 @@ public class Number {
         this.value = value;
 
         String stringValue = Long.toString(value);
-        byte[] tmp = new byte[stringValue.length()];
+        int[] tmp = new int[stringValue.length()];
 
         for (int i = tmp.length - 1; i > 0; i--) {
-            tmp[i] = (byte)(stringValue.charAt(i) - '0');
+            tmp[i] = stringValue.charAt(i) - '0';
         }
 
         digits = tmp;
+        binaryNumber = getBinary();
     }
 
     public boolean[] getBinary() {
@@ -284,7 +310,7 @@ public class Number {
             return true;
         }
 
-        byte[] b = number.getDigits();
+        int[] b = number.getDigits();
         for (int i = digits.length - 1; i >= 0; i--) {
             if (b[i] > digits[i]) {
                 return false;
@@ -299,7 +325,7 @@ public class Number {
         return equals(number) || isGreaterThan(number);
     }
 
-    public byte[] getDigits() {
+    public int[] getDigits() {
         return digits;
     }
 
@@ -322,8 +348,8 @@ public class Number {
         }
     }
 
-    public static byte[] deleteZeros(byte[] digits) {
-        byte[] tmp = digits;
+    public static int[] deleteZeros(int[] digits) {
+        int[] tmp = digits;
 
         int zeros = 0;
         for (int i = digits.length - 1; i > 0; i--) {
@@ -351,7 +377,7 @@ public class Number {
         }
 
         Number number = (Number) object;
-        byte[] b = number.getDigits();
+        int[] b = number.getDigits();
 
         if (digits.length != b.length) {
             return false;

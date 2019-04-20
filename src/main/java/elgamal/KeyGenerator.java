@@ -1,41 +1,66 @@
 package elgamal;
 
+import elgamal.exceptions.NegativeNumberException;
+
+import java.util.Arrays;
+
 public class KeyGenerator {
 
-    String p;
-    String g;
-    String a;
+    Number p;
+    Number g;
+    Number a;
 
     public void generate() {
-        p = generateP();
-        g = generateG(p);
-        a = generateG(p);
+        Number pnumber = generateNumber(10, 50);
+        while (true) {
+            try {
+                if (fermatTest(pnumber, 2)) {
+                    break;
+                }
+            } catch (NegativeNumberException e) {}
+            pnumber = generateNumber(10, 50);
+            System.out.println(pnumber);
+        }
     }
 
-    private String generateP() {
-//        TODO: Make it prime number
-        StringBuilder sb = new StringBuilder();
-        int digitsNumber = Operations.getRandomNumberInRange(310, 320);
+    private static Number generateNumber(int min, int max) {
+        int digitsNumber = Operations.getRandomNumberInRange(min, max);
+        int[] digits = new int[digitsNumber];
+
         for (int i = 0; i < digitsNumber; i++) {
             if (i > 0) {
-                sb.append(Operations.getRandomNumberInRange(0, 9));
+                digits[i] = Operations.getRandomNumberInRange(0, 9);
             } else {
-                sb.append(Operations.getRandomNumberInRange(1, 9));
+                digits[i] = Operations.getRandomNumberInRange(1, 9);
             }
         }
-        return sb.toString();
+        return new Number(digits, false);
     }
 
-    private String generateG(final String p) {
-        StringBuilder sb = new StringBuilder();
-        int digitsShift = Operations.getRandomNumberInRange(2, 5);
-        for (int i = 0; i < p.length() - digitsShift; i++) {
-            if (i > 1) {
-                sb.append(Operations.getRandomNumberInRange(0, 9));
-            } else {
-                sb.append(p.charAt(i));
+    public static boolean fermatTest(Number number, int k) throws NegativeNumberException {
+        Number a;
+        int numberLength = number.getDigits().length;
+        for (int i = 0; i < k; i++) {
+            a = generateNumber(2, numberLength - 2);
+            System.out.println(a);
+            if (!a.modPower(number.subtract(Number.ONE), number).equals(Number.ONE)) {
+                return false;
             }
+
         }
-        return sb.toString();
+        return true;
     }
+
+//    private String generateG(final String p) {
+//        StringBuilder sb = new StringBuilder();
+//        int digitsShift = Operations.getRandomNumberInRange(2, 5);
+//        for (int i = 0; i < p.length() - digitsShift; i++) {
+//            if (i > 1) {
+//                sb.append(Operations.getRandomNumberInRange(0, 9));
+//            } else {
+//                sb.append(p.charAt(i));
+//            }
+//        }
+//        return sb.toString();
+//    }
 }

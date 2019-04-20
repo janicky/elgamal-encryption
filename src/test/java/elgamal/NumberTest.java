@@ -115,8 +115,6 @@ class NumberTest {
         Number number4 = new Number("2");
         Number result2 = number3.mod(number4);
         assertEquals(new Number("0"), result2);
-
-        System.out.println((new Number("12435819741987159847184239149721124").mod(new Number("12930813092178196182956189"))));
     }
 
     @Test
@@ -133,10 +131,9 @@ class NumberTest {
         Number result = number4.modPower(number5, number6);
         assertEquals(new Number("3"), result);
 
-        Number number7 = new Number("1231232131231");
-        Number number8 = new Number("131232131241412");
-        Number number9 = new Number("51231232");
-        System.out.println(number7.modPower(number8, number9));
+        Number number7 = new Number("121");
+        Number number8 = new Number("112");
+        Number number9 = new Number("5");
     }
 
     @Test
