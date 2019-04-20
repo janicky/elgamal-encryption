@@ -146,6 +146,15 @@ class NumberTest {
     }
 
     @Test
+    void setValue() throws OutOfRangeException {
+        Number number1 = new Number("82432213");
+        assertEquals(82432213, number1.getValue());
+        number1.setValue(5971613);
+        assertEquals(5971613, number1.getValue());
+        assertEquals("3161790", number1.toString());
+    }
+
+    @Test
     void getBinary() {
         Number number1 = new Number("8");
         boolean[] expected1 = new boolean[] { false, false, false, true };

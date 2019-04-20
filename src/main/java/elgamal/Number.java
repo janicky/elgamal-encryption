@@ -219,7 +219,18 @@ public class Number {
         return value;
     }
 
-//    public void setValue
+    public void setValue(long value) {
+        this.value = value;
+
+        String stringValue = Long.toString(value);
+        byte[] tmp = new byte[stringValue.length()];
+
+        for (int i = tmp.length - 1; i > 0; i--) {
+            tmp[i] = (byte)(stringValue.charAt(i) - '0');
+        }
+
+        digits = tmp;
+    }
 
     public boolean[] getBinary() {
         if (binaryNumber != null) {
