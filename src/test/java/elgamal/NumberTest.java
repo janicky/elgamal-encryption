@@ -97,6 +97,16 @@ class NumberTest {
     }
 
     @Test
+    void divideWithRest() throws DivideRestException, NegativeNumberException {
+        Number number1 = new Number("101");
+        Number number2 = new Number("5");
+        Number rest = Number.ZERO;
+        Number result1 = number1.divide(number2, rest);
+        assertEquals(Number.ONE, rest);
+        assertEquals(new Number("20"), result1);
+    }
+
+    @Test
     void power() {
         Number number1 = new Number("5");
         Number number2 = new Number("3");

@@ -49,6 +49,10 @@ public class Number {
         return (byte) (digit - '0');
     }
 
+    public void setDigits(int[] digits) {
+        this.digits = digits;
+    }
+
     public Number add(Number number) {
         int[] a = (digits.length >= number.getDigits().length ? digits : number.getDigits());
         int[] b = (digits.length >= number.getDigits().length ? number.getDigits() : digits);
@@ -132,20 +136,38 @@ public class Number {
         return new Number(deleteZeros(tmp));
     }
 
-    public Number divide(Number number) throws DivideRestException {
+    public Number divide(Number number, Number rest) throws DivideRestException, NegativeNumberException {
         Number product = new Number(digits);
         Number tmp = ZERO;
+
+        if (rest != null) {
+            rest.setValue(0);
+        }
 
         while (!product.isZero()) {
             try {
                 product = product.subtract(number);
                 tmp = tmp.add(ONE);
             } catch (NegativeNumberException e) {
-                throw new DivideRestException();
+                if (rest != null) {
+                    Number r = number.subtract(number.subtract(product));
+                    rest.setDigits(r.getDigits());
+                    break;
+                } else {
+                    throw new DivideRestException();
+                }
             }
         }
 
         return tmp;
+    }
+
+    public Number divide(Number number) throws DivideRestException {
+        try {
+            return divide(number, null);
+        } catch (NegativeNumberException e) {
+            return null;
+        }
     }
 
     public Number power(Number number) {
@@ -189,45 +211,7 @@ public class Number {
             }
             x = x.multiply(x);
         }
-
-
         return result;
-    }
-
-    private void setShiftLeft(Number number, int count) throws OutOfRangeException {
-        int[] new_digits;
-        int digits_length;
-
-        if (number.getValue() <= Long.MAX_VALUE) {
-            if (count < 32) {
-                number.setValue(number.getValue() << count);
-                return;
-            }
-            new_digits = new int[1];
-            new_digits[0] = (int) number.getValue();
-            digits_length = 1;
-        } else {
-            new_digits = number.getDigits();
-            digits_length = new_digits.length;
-        }
-
-        int digits_count = count >> 5;
-        count &= 31;
-        int new_len = digits_length + digits_count;
-
-        if (count == 0) {
-//            TODO: Realloc
-            for (int i = digits_length - 1; i > 0; i--) {
-                digits[i + digits_count] = new_digits[i];
-            }
-        } else {
-            new_len++;
-            int shift_out = MPN.lshift(digits, digits_count, new_digits, digits_length, count);
-        }
-
-//        byte[] tmp = tmp_number.getDigits();
-//        byte[] digits;
-
     }
 
     public long getValue() throws OutOfRangeException {
