@@ -136,30 +136,70 @@ public class Number {
         return new Number(deleteZeros(tmp));
     }
 
-    public Number divide(Number number, Number rest) throws DivideRestException, NegativeNumberException {
-        Number product = new Number(digits);
-        Number tmp = ZERO;
+//    public Number divide(Number number, Number rest) throws DivideRestException, NegativeNumberException {
+//        Number product = new Number(digits);
+//        int diff = Math.abs(digits.length - number.getDigits().length - 1);
+//        Number divider = (new Number("10")).power(new Number(Integer.toString(diff)));
+//        if (rest != null) {
+//            rest.setValue(0);
+//        }
+//
+//        while (!product.isZero()) {
+//            try {
+//                product = product.subtract(number.multiply(divider));
+//                System.out.println(product);
+//                divider = divider.add(ONE);
+//            } catch (NegativeNumberException e) {
+//                if (rest != null) {
+//                    Number r = number.subtract(number.subtract(product));
+//                    rest.setDigits(r.getDigits());
+//                    break;
+//                } else {
+//                    throw new DivideRestException();
+//                }
+//            }
+//        }
+//
+//        return divider;
+//    }
 
-        if (rest != null) {
-            rest.setValue(0);
-        }
+    public Number divide(Number number, Number rest) throws NegativeNumberException, DivideRestException {
+        Number x = ZERO, last_x = ZERO, multiplier, last_multiplier = ONE;
+        Number pi;
+        Number xi_sum = ZERO;
+        Number iterator = ZERO;
 
-        while (!product.isZero()) {
-            try {
-                product = product.subtract(number);
-                tmp = tmp.add(ONE);
-            } catch (NegativeNumberException e) {
-                if (rest != null) {
-                    Number r = number.subtract(number.subtract(product));
-                    rest.setDigits(r.getDigits());
-                    break;
-                } else {
-                    throw new DivideRestException();
+        // A - this
+        // B - number
+        while (true) {
+            multiplier = TWO.power(iterator);
+            pi = number.multiply(multiplier).add(x);
+
+            if (equals(pi)) {
+                return (xi_sum.isZero() ? multiplier : xi_sum.add(ONE));
+            } else if (pi.isGreaterThan(this)) {
+                x = last_x;
+
+                if (iterator.equals(ZERO)) {
+                    if (rest != null) {
+                        Number r = subtract(number.multiply(xi_sum));
+                        rest.setDigits(r.getDigits());
+                    } else {
+                        throw new DivideRestException();
+                    }
+
+                    return xi_sum;
                 }
-            }
-        }
 
-        return tmp;
+                iterator = ZERO;
+                xi_sum = xi_sum.add(last_multiplier);
+                continue;
+            } else {
+                last_x = new Number(pi.getDigits());
+                last_multiplier = multiplier;
+            }
+            iterator = iterator.add(ONE);
+        }
     }
 
     public Number divide(Number number) throws DivideRestException {
@@ -198,17 +238,18 @@ public class Number {
     }
 
     public Number modPower(Number number, Number m) throws NegativeNumberException {
-        Number result = ONE;
-        Number x = this.mod(m);
-        boolean[] booleanNumber = number.getBinary();
-        for (int i = 0; i < booleanNumber.length; i++) {
-            x = x.mod(m);
-            if (booleanNumber[i]) {
-                result = result.multiply(x).mod(m);
-            }
-            x = x.multiply(x);
-        }
-        return result;
+//        Number result = ONE;
+//        Number x = this.mod(m);
+//        boolean[] booleanNumber = number.getBinary();
+//        for (int i = 0; i < booleanNumber.length; i++) {
+//            x = x.mod(m);
+//            if (booleanNumber[i]) {
+//                result = result.multiply(x).mod(m);
+//            }
+//            x = x.multiply(x);
+//        }
+//        return result;
+        return power(number).mod(m);
     }
 
     public long getValue() throws OutOfRangeException {

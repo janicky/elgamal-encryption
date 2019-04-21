@@ -89,11 +89,13 @@ class NumberTest {
     }
 
     @Test
-    void divide() throws DivideRestException {
-        Number number1 = new Number("125");
-        Number number2 = new Number("5");
-        Number result1 = number1.divide(number2);
-        assertEquals(new Number("25"), result1);
+    void divide() throws DivideRestException, NegativeNumberException {
+        Number number1 = new Number("2138971");
+        Number number2 = new Number("15");
+        Number rest = Number.ZERO;
+        Number result = number1.divide(number2, rest);
+        assertEquals(Number.ONE, rest);
+        assertEquals(new Number("142598"), result);
     }
 
     @Test
@@ -130,20 +132,20 @@ class NumberTest {
     @Test
     void modPower() throws NegativeNumberException {
         Number number1 = new Number("2123");
-        Number number2 = new Number("313");
-        Number number3 = new Number("52");
+        Number number2 = new Number("11");
+        Number number3 = new Number("52431343");
         Number result1 = number1.modPower(number2, number3);
         assertEquals(new Number("43"), result1);
 
-        Number number4 = new Number("2");
-        Number number5 = new Number("3");
-        Number number6 = new Number("5");
-        Number result = number4.modPower(number5, number6);
-        assertEquals(new Number("3"), result);
-
-        Number number7 = new Number("121");
-        Number number8 = new Number("112");
-        Number number9 = new Number("5");
+//        Number number4 = new Number("2");
+//        Number number5 = new Number("3");
+//        Number number6 = new Number("5");
+//        Number result = number4.modPower(number5, number6);
+//        assertEquals(new Number("3"), result);
+//
+//        Number number7 = new Number("121");
+//        Number number8 = new Number("2");
+//        Number number9 = new Number("5123");
     }
 
     @Test
