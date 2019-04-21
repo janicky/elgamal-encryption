@@ -188,16 +188,13 @@ public class Number {
     }
 
     public Number mod(Number m) throws NegativeNumberException {
-        if (m.isZero()) {
-            throw new ArithmeticException("Divisor is zero");
+        Number rest = ZERO;
+        try {
+            divide(m, rest);
+        } catch (DivideRestException e) {
+//            ...
         }
-        Number iterator = ONE;
-        Number product = ZERO;
-        while (this.isEqualOrGreaterThan(product)) {
-            product = m.multiply(iterator);
-            iterator = iterator.add(ONE);
-        }
-        return this.subtract(product.subtract(m));
+        return rest;
     }
 
     public Number modPower(Number number, Number m) throws NegativeNumberException {

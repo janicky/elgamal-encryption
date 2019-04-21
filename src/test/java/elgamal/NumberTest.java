@@ -116,10 +116,10 @@ class NumberTest {
 
     @Test
     void mod() throws NegativeNumberException {
-        Number number1 = new Number("951231");
-        Number number2 = new Number("1314");
+        Number number1 = new Number("95123117409274140");
+        Number number2 = new Number("9512314353123114");
         Number result1 = number1.mod(number2);
-        assertEquals(new Number("1209"), result1);
+        assertEquals(new Number("9512288231166114"), result1);
 
         Number number3 = new Number("16");
         Number number4 = new Number("2");
