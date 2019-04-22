@@ -41,12 +41,12 @@ public class KeyGenerator {
         Number a;
         int numberLength = number.getDigits().length;
         for (int i = 0; i < k; i++) {
-            a = generateNumber(2, numberLength - 2);
+            a = generateNumber(1, numberLength - 1);
             System.out.println(a);
             if (!a.modPower(number.subtract(Number.ONE), number).equals(Number.ONE)) {
                 return false;
             }
-
+            System.out.println(a);
         }
         return true;
     }

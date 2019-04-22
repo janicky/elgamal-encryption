@@ -15,7 +15,7 @@ public class Number {
     private long value = -1;
 
     public Number(int[] digits) {
-        this.digits = digits;
+        this.digits = deleteZeros(digits);
     }
 
     public Number(int[] digits, boolean reversed) {
@@ -163,7 +163,7 @@ public class Number {
 //        return divider;
 //    }
 
-    public Number divide(Number number, Number rest) throws NegativeNumberException, DivideRestException {
+    public Number divide2(Number number, Number rest) throws NegativeNumberException, DivideRestException {
         Number x = ZERO, last_x = ZERO, multiplier, last_multiplier = ONE;
         Number pi;
         Number xi_sum = ZERO;
@@ -202,9 +202,64 @@ public class Number {
         }
     }
 
-    public Number divide(Number number) throws DivideRestException {
+    public Number divide(Number number, Number rest) throws NegativeNumberException, DivideRestException {
+        List<Integer> results = new ArrayList<>();
+        int[] collection = digits.clone();
+        int shift = 0;
+
+        while (true) {
+            for (int i = collection.length - 1 - shift; i >= 0; i--) {
+                int[] tmp = new int[collection.length - i - shift];
+                int k = tmp.length - 1;
+                for (int j = collection.length - 1 - shift; j >= i; j--) {
+                    tmp[k--] = collection[j];
+                }
+
+                Number split = new Number(tmp);
+                if (split.equals(number)) {
+                    results.add(1);
+                    shift = collection.length - i;
+                    break;
+                }
+                if (split.isEqualOrGreaterThan(number)) {
+                    for (int n = collection.length - tmp.length - shift; n < collection.length; n++) {
+                        collection[n] = 0;
+                    }
+                    Number tmp_rest = new Number("0");
+                    try {
+                        int res = (int) split.divide2(number, tmp_rest).getValue();
+                        results.add(res);
+                    } catch (OutOfRangeException e) {
+                        e.printStackTrace();
+                    }
+                    int[] rest_digits = tmp_rest.getDigits();
+
+                    int t = 0;
+                    for (int m = collection.length - tmp.length - shift; m < collection.length - shift - tmp.length + rest_digits.length; m++) {
+                        collection[m] = rest_digits[t++];
+                    }
+                    shift = t - 1;
+                    break;
+                }
+                if (i == 0) {
+                    Number trest = new Number(collection);
+                    rest.setDigits(trest.getDigits());
+
+                    int[] tmp_output = new int[results.size()];
+                    int t = 0;
+                    for (int f = results.size() - 1; f >= 0; f--) {
+                        tmp_output[t++] = results.get(f);
+                    }
+                    return new Number(tmp_output);
+                }
+            }
+        }
+
+    }
+
+    public Number divide2(Number number) throws DivideRestException {
         try {
-            return divide(number, null);
+            return divide2(number, null);
         } catch (NegativeNumberException e) {
             return null;
         }
@@ -235,7 +290,7 @@ public class Number {
 //            ...
         }
         return rest;
-    }
+      }
 
     public Number modPower(Number number, Number m) throws NegativeNumberException {
 //        Number result = ONE;
@@ -295,11 +350,11 @@ public class Number {
                 tmp.add(true);
             }
             try {
-                number = number.divide(TWO);
+                number = number.divide2(TWO);
             } catch (DivideRestException e) {
                 try {
                     number = number.subtract(ONE);
-                    number = number.divide(TWO);
+                    number = number.divide2(TWO);
                 } catch (Exception ex) {
                     break;
                 }
@@ -362,7 +417,7 @@ public class Number {
                 if (this.equals(iterator)) {
                     return true;
                 }
-                this.divide(iterator);
+                this.divide2(iterator);
                 return false;
             } catch (DivideRestException e) {
                 iterator = iterator.add(ONE);

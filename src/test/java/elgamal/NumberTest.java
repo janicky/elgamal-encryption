@@ -89,23 +89,32 @@ class NumberTest {
     }
 
     @Test
-    void divide() throws DivideRestException, NegativeNumberException {
-        Number number1 = new Number("2138971");
-        Number number2 = new Number("15");
+    void divide() throws NegativeNumberException, DivideRestException {
+        Number number1 = new Number("10512387");
+        Number number2 = new Number("1234");
         Number rest = Number.ZERO;
-        Number result = number1.divide(number2, rest);
-        assertEquals(Number.ONE, rest);
-        assertEquals(new Number("142598"), result);
+        Number result1 = number1.divide(number2, rest);
+        System.out.println(number1 + " : " + number2 + " = " + result1 + " + " + rest);
     }
 
     @Test
-    void divideWithRest() throws DivideRestException, NegativeNumberException {
-        Number number1 = new Number("101");
-        Number number2 = new Number("5");
+    void ttttt() throws NegativeNumberException, DivideRestException {
+        Number number1 = new Number("6403");
+        Number number2 = new Number("1234");
         Number rest = Number.ZERO;
-        Number result1 = number1.divide(number2, rest);
+        Number res = number1.divide2(number2, rest);
+        System.out.println(res);
+        System.out.println(rest);
+    }
+
+    @Test
+    void divide2() throws DivideRestException, NegativeNumberException {
+        Number number1 = new Number("2138971");
+        Number number2 = new Number("15");
+        Number rest = Number.ZERO;
+        Number result = number1.divide2(number2, rest);
         assertEquals(Number.ONE, rest);
-        assertEquals(new Number("20"), result1);
+        assertEquals(new Number("142598"), result);
     }
 
     @Test
@@ -118,15 +127,15 @@ class NumberTest {
 
     @Test
     void mod() throws NegativeNumberException {
-        Number number1 = new Number("95123117409274140");
-        Number number2 = new Number("9512314353123114");
+        Number number1 = new Number("189361987412649864981461984142141414214125412543546754");
+        Number number2 = new Number("1984326195264392187631287458745128745278425451241231");
         Number result1 = number1.mod(number2);
-        assertEquals(new Number("9512288231166114"), result1);
+        System.out.println(result1);
 
-        Number number3 = new Number("16");
-        Number number4 = new Number("2");
-        Number result2 = number3.mod(number4);
-        assertEquals(new Number("0"), result2);
+//        Number number3 = new Number("16");
+//        Number number4 = new Number("2");
+//        Number result2 = number3.mod(number4);
+//        assertEquals(new Number("0"), result2);
     }
 
     @Test
