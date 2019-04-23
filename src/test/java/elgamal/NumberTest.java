@@ -102,6 +102,16 @@ class NumberTest {
     }
 
     @Test
+    void longDivide() throws NegativeNumberException, DivideRestException {
+        Number number1 = new Number("13");
+        Number number2 = new Number("2");
+        Number rest = Number.ZERO;
+        Number result = number1.divide(number2, rest);
+        assertEquals(new Number("6"), result);
+        assertEquals(new Number("1"), rest);
+    }
+
+    @Test
     void divide2() throws DivideRestException, NegativeNumberException {
         Number number1 = new Number("2138971");
         Number number2 = new Number("15");
@@ -124,7 +134,7 @@ class NumberTest {
         Number number1 = new Number("189361987412649864981461984142141414214125412543546754");
         Number number2 = new Number("1984326195264392187631287458745128745278425451241231");
         Number result1 = number1.mod(number2);
-        assertEquals(new Number("10772629838854568094646112855079827139067121931835964"), result1);
+        assertEquals(new Number("850998862532607156489675561354183412674994675629809"), result1);
     }
 
     @Test
@@ -133,17 +143,13 @@ class NumberTest {
         Number number2 = new Number("11");
         Number number3 = new Number("52431343");
         Number result1 = number1.modPower(number2, number3);
-        assertEquals(new Number("43"), result1);
+        assertEquals(new Number("1581485"), result1);
 
-//        Number number4 = new Number("2");
-//        Number number5 = new Number("3");
-//        Number number6 = new Number("5");
-//        Number result = number4.modPower(number5, number6);
-//        assertEquals(new Number("3"), result);
-//
-//        Number number7 = new Number("121");
-//        Number number8 = new Number("2");
-//        Number number9 = new Number("5123");
+        Number number4 = new Number("2");
+        Number number5 = new Number("3");
+        Number number6 = new Number("5");
+        Number result2 = number4.modPower(number5, number6);
+        assertEquals(new Number("3"), result2);
     }
 
     @Test
@@ -159,17 +165,6 @@ class NumberTest {
         number1.setValue(5971613);
         assertEquals(5971613, number1.getValue());
         assertEquals("3161790", number1.toString());
-    }
-
-    @Test
-    void getBinary() {
-        Number number1 = new Number("8");
-        boolean[] expected1 = new boolean[] { false, false, false, true };
-        assertArrayEquals(expected1, number1.getBinary());
-
-        Number number2 = new Number("9");
-        boolean[] expected2 = new boolean[] { true, false, false, true };
-        assertArrayEquals(expected2, number2.getBinary());
     }
 
     @Test

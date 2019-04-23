@@ -27,11 +27,9 @@ public class Number {
         this.digits = tmp;
     }
 
-    public Number(List<Byte> digits) {
-        this.digits = new int[digits.size()];
-        for (int i = 0; i < digits.size(); i++) {
-            this.digits[i] = digits.get(i);
-        }
+    public Number(long value) {
+        this("0");
+        setValue(value);
     }
 
     public Number(String digits) {
@@ -176,68 +174,74 @@ public class Number {
     }
 
     public Number divide(Number number, Number rest) throws NegativeNumberException, DivideRestException {
-        List<Integer> results = new ArrayList<>();
-        int[] collection = digits.clone();
-        int shift = 0;
+        try {
+            long x = getValue();
+            long y = number.getValue();
+            rest.setValue(x % y);
+            return new Number(x / y);
+        } catch (OutOfRangeException ex) {
+            List<Integer> results = new ArrayList<>();
+            int[] collection = digits.clone();
+            int shift = 0;
 
-        while (true) {
-            for (int i = collection.length - 1 - shift; i >= 0; i--) {
-                int[] tmp = new int[collection.length - i - shift];
-                int k = tmp.length - 1;
-                for (int j = collection.length - 1 - shift; j >= i; j--) {
-                    tmp[k--] = collection[j];
-                }
-
-                Number split = new Number(tmp);
-                if (split.equals(number)) {
-                    results.add(1);
-                    for (int n = collection.length - tmp.length - shift; n < collection.length; n++) {
-                        collection[n] = 0;
+            while (true) {
+                for (int i = collection.length - 1 - shift; i >= 0; i--) {
+                    int[] tmp = new int[collection.length - i - shift];
+                    int k = tmp.length - 1;
+                    for (int j = collection.length - 1 - shift; j >= i; j--) {
+                        tmp[k--] = collection[j];
                     }
-                    shift += tmp.length;
-                    break;
-                }
-                if (split.isEqualOrGreaterThan(number)) {
 
-                    for (int n = collection.length - tmp.length - shift; n < collection.length; n++) {
-                        collection[n] = 0;
+                    Number split = new Number(tmp);
+                    if (split.equals(number)) {
+                        results.add(1);
+                        for (int n = collection.length - tmp.length - shift; n < collection.length; n++) {
+                            collection[n] = 0;
+                        }
+                        shift += tmp.length;
+                        break;
                     }
-                    Number tmp_rest = new Number("0");
-                    try {
-                        int res = (int) split.divide2(number, tmp_rest).getValue();
-                        results.add(res);
-                    } catch (OutOfRangeException e) {
-                        e.printStackTrace();
-                    }
-                    int[] rest_digits = tmp_rest.getDigits();
+                    if (split.isEqualOrGreaterThan(number)) {
 
-                    int t = 0;
-                    for (int m = collection.length - tmp.length - shift; m < collection.length - shift - tmp.length + rest_digits.length; m++) {
-                        collection[m] = rest_digits[t++];
-                    }
-                    shift += tmp.length - rest_digits.length;
+                        for (int n = collection.length - tmp.length - shift; n < collection.length; n++) {
+                            collection[n] = 0;
+                        }
+                        Number tmp_rest = new Number("0");
+                        try {
+                            int res = (int) split.divide2(number, tmp_rest).getValue();
+                            results.add(res);
+                        } catch (OutOfRangeException e) {
+                            e.printStackTrace();
+                        }
+                        int[] rest_digits = tmp_rest.getDigits();
 
-                    break;
-                } else {
-                    if (results.size() - 1 < (collection.length - 1 - i)) {
-                        results.add(0);
-                    }
-                }
+                        int t = 0;
+                        for (int m = collection.length - tmp.length - shift; m < collection.length - shift - tmp.length + rest_digits.length; m++) {
+                            collection[m] = rest_digits[t++];
+                        }
+                        shift += tmp.length - rest_digits.length;
 
-                if (i == 0) {
-                    Number trest = new Number(collection);
-                    rest.setDigits(trest.getDigits());
-
-                    int[] tmp_output = new int[results.size()];
-                    int t = 0;
-                    for (int f = results.size() - 1; f >= 0; f--) {
-                        tmp_output[t++] = results.get(f);
+                        break;
+                    } else {
+                        if (results.size() - 1 < (collection.length - 1 - i)) {
+                            results.add(0);
+                        }
                     }
-                    return new Number(tmp_output);
+
+                    if (i == 0) {
+                        Number trest = new Number(collection);
+                        rest.setDigits(trest.getDigits());
+
+                        int[] tmp_output = new int[results.size()];
+                        int t = 0;
+                        for (int f = results.size() - 1; f >= 0; f--) {
+                            tmp_output[t++] = results.get(f);
+                        }
+                        return new Number(tmp_output);
+                    }
                 }
             }
         }
-
     }
 
     public Number divide2(Number number) throws DivideRestException {
@@ -309,46 +313,10 @@ public class Number {
 
         String stringValue = Long.toString(value);
         int[] tmp = new int[stringValue.length()];
-
-        for (int i = tmp.length - 1; i > 0; i--) {
+        for (int i = tmp.length - 1; i >= 0; i--) {
             tmp[i] = stringValue.charAt(i) - '0';
         }
-
         digits = tmp;
-        binaryNumber = getBinary();
-    }
-
-    public boolean[] getBinary() {
-        if (binaryNumber != null) {
-            return binaryNumber;
-        }
-
-        List<Boolean> tmp = new ArrayList<>();
-        Number number = new Number(this.getDigits());
-
-        while (!number.isZero()) {
-            try {
-                tmp.add(!number.mod(TWO).isZero());
-            } catch (NegativeNumberException e) {
-                tmp.add(true);
-            }
-            try {
-                number = number.divide2(TWO);
-            } catch (DivideRestException e) {
-                try {
-                    number = number.subtract(ONE);
-                    number = number.divide2(TWO);
-                } catch (Exception ex) {
-                    break;
-                }
-            }
-        }
-
-        binaryNumber = new boolean[tmp.size()];
-        for (int i = 0; i < tmp.size(); i++) {
-            binaryNumber[i] = tmp.get(i);
-        }
-        return binaryNumber;
     }
 
     public boolean isZero() {
