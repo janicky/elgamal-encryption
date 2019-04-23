@@ -123,8 +123,8 @@ class NumberTest {
 
     @Test
     void power() {
-        Number number1 = new Number("6621738");
-        Number number2 = new Number("22801763488");
+        Number number1 = new Number("5");
+        Number number2 = new Number("3");
         Number result = number1.power(number2);
         assertEquals(new Number("125"), result);
     }
@@ -139,12 +139,6 @@ class NumberTest {
 
     @Test
     void modPower() {
-        Number number1 = new Number("6621738");
-        Number number2 = new Number("22801763488");
-        Number number3 = new Number("22801763489");
-        Number result1 = number1.modPower(number2, number3);
-        assertEquals(new Number("1"), result1);
-
         Number number4 = new Number("2");
         Number number5 = new Number("3");
         Number number6 = new Number("5");
@@ -188,17 +182,6 @@ class NumberTest {
         assertFalse(number3.isZero());
         Number number4 = new Number("0000");
         assertTrue(number4.isZero());
-    }
-
-    @Test
-    void isPrime() {
-        assertFalse((new Number("1")).isPrime());
-        assertTrue((new Number("2")).isPrime());
-        assertTrue((new Number("3")).isPrime());
-        assertTrue((new Number("5")).isPrime());
-        assertTrue((new Number("7")).isPrime());
-        assertTrue((new Number("11")).isPrime());
-        assertFalse((new Number("12")).isPrime());
     }
 
     @Test

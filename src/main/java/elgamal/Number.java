@@ -287,12 +287,9 @@ public class Number {
         boolean[] binary = number.getBinary();
         int bitptr = binary.length - 1;
         for (bitptr--; bitptr >= 0; bitptr--) {
-            System.out.println(bitptr + ": " + accum.multiply(accum).mod(m));
             accum = accum.multiply(accum).mod(m);
             if (binary[bitptr]) {
-                System.out.println("TEST BIT");
                 accum = multiply(accum).mod(m);
-                System.out.println(accum);
             }
         }
         return accum;
