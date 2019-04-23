@@ -91,12 +91,12 @@ class NumberTest {
     @Test
     void divide() throws NegativeNumberException, DivideRestException {
         long startTime = System.nanoTime();
-        Number number1 = new Number("641794641927864124872146129393012193418230921381093821390127412641287462174124214721094812094821904214214124");
-        Number number2 = new Number("1418753785902987595238957259827529582375832573259872598279875398275298357328957");
+        Number number1 = new Number("659960973567992041");
+        Number number2 = new Number("52431343");
         Number rest = Number.ZERO;
         Number result = number1.divide(number2, rest);
-        assertEquals(new Number("452365060311986471205008697709"), result);
-        assertEquals(new Number("632617509271217274544376029156989422390410214867951800309910654638493928954611"), rest);
+        assertEquals(new Number("12587146081"), result);
+        assertEquals(new Number("3975258"), rest);
         double duration = (System.nanoTime() - startTime) / 1000000.0;
         assertTrue(duration < 15);
     }
@@ -123,27 +123,27 @@ class NumberTest {
 
     @Test
     void power() {
-        Number number1 = new Number("5");
-        Number number2 = new Number("3");
+        Number number1 = new Number("6621738");
+        Number number2 = new Number("22801763488");
         Number result = number1.power(number2);
         assertEquals(new Number("125"), result);
     }
 
     @Test
-    void mod() throws NegativeNumberException {
-        Number number1 = new Number("189361987412649864981461984142141414214125412543546754");
-        Number number2 = new Number("1984326195264392187631287458745128745278425451241231");
+    void mod() {
+        Number number1 = new Number("812379821");
+        Number number2 = new Number("52431343");
         Number result1 = number1.mod(number2);
-        assertEquals(new Number("850998862532607156489675561354183412674994675629809"), result1);
+        assertEquals(new Number("25909676"), result1);
     }
 
     @Test
-    void modPower() throws NegativeNumberException {
-        Number number1 = new Number("2123");
-        Number number2 = new Number("11");
-        Number number3 = new Number("52431343");
+    void modPower() {
+        Number number1 = new Number("6621738");
+        Number number2 = new Number("22801763488");
+        Number number3 = new Number("22801763489");
         Number result1 = number1.modPower(number2, number3);
-        assertEquals(new Number("1581485"), result1);
+        assertEquals(new Number("1"), result1);
 
         Number number4 = new Number("2");
         Number number5 = new Number("3");
@@ -154,8 +154,8 @@ class NumberTest {
 
     @Test
     void getValue() throws OutOfRangeException {
-        Number number1 = new Number("1231233");
-        assertEquals(1231233, number1.getValue());
+        Number number1 = new Number("659960973567992041");
+        assertEquals(659960973567992041L, number1.getValue());
     }
 
     @Test
@@ -164,7 +164,7 @@ class NumberTest {
         assertEquals(82432213, number1.getValue());
         number1.setValue(5971613);
         assertEquals(5971613, number1.getValue());
-        assertEquals("3161790", number1.toString());
+        assertEquals("5971613", number1.toString());
     }
 
     @Test

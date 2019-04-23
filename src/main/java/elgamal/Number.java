@@ -4,6 +4,7 @@ import elgamal.exceptions.DivideRestException;
 import elgamal.exceptions.NegativeNumberException;
 import elgamal.exceptions.OutOfRangeException;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -220,7 +221,6 @@ public class Number {
                             collection[m] = rest_digits[t++];
                         }
                         shift += tmp.length - rest_digits.length;
-
                         break;
                     } else {
                         if (results.size() - 1 < (collection.length - 1 - i)) {
@@ -279,18 +279,7 @@ public class Number {
         return rest;
       }
 
-    public Number modPower(Number number, Number m) throws NegativeNumberException {
-//        Number result = ONE;
-//        Number x = this.mod(m);
-//        boolean[] booleanNumber = number.getBinary();
-//        for (int i = 0; i < booleanNumber.length; i++) {
-//            x = x.mod(m);
-//            if (booleanNumber[i]) {
-//                result = result.multiply(x).mod(m);
-//            }
-//            x = x.multiply(x);
-//        }
-//        return result;
+    public Number modPower(Number number, Number m){
         Number accum = new Number(digits);
         if (number.isZero()) {
             return Number.ONE;
@@ -298,9 +287,12 @@ public class Number {
         boolean[] binary = number.getBinary();
         int bitptr = binary.length - 1;
         for (bitptr--; bitptr >= 0; bitptr--) {
+            System.out.println(bitptr + ": " + accum.multiply(accum).mod(m));
             accum = accum.multiply(accum).mod(m);
             if (binary[bitptr]) {
-                accum = accum.multiply(this).mod(m);
+                System.out.println("TEST BIT");
+                accum = multiply(accum).mod(m);
+                System.out.println(accum);
             }
         }
         return accum;
@@ -321,6 +313,7 @@ public class Number {
                 tmp.add(!remainder.isZero());
             } catch (Exception e) {
                 tmp.add(true);
+                break;
             }
         }
 
@@ -340,7 +333,7 @@ public class Number {
         }
         value = 0;
         for (int i = 0; i < digits.length; i++) {
-            value += digits[i] * Math.pow(10, i);
+            value += (long)(digits[i] * Math.pow(10, i));
         }
         return value;
     }
@@ -350,8 +343,9 @@ public class Number {
 
         String stringValue = Long.toString(value);
         int[] tmp = new int[stringValue.length()];
+        int t = 0;
         for (int i = tmp.length - 1; i >= 0; i--) {
-            tmp[i] = stringValue.charAt(i) - '0';
+            tmp[t++] = stringValue.charAt(i) - '0';
         }
         digits = tmp;
     }
