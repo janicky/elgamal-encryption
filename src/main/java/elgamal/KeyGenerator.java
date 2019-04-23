@@ -1,52 +1,50 @@
 package elgamal;
 
+import elgamal.exceptions.DivideRestException;
 import elgamal.exceptions.NegativeNumberException;
 
-import java.util.Arrays;
+import java.math.BigInteger;
 
 public class KeyGenerator {
 
-    Number p;
-    Number g;
-    Number a;
+    BigInteger p;
+    BigInteger g;
+    BigInteger a;
 
     public void generate() {
-        Number pnumber = generateNumber(10, 50);
+        BigInteger pnumber = generateNumber(10, 50);
         while (true) {
-            try {
-                if (fermatTest(pnumber, 2)) {
-                    break;
-                }
-            } catch (NegativeNumberException e) {}
+            if (fermatTest(pnumber, 2)) {
+                break;
+            }
             pnumber = generateNumber(10, 50);
             System.out.println(pnumber);
         }
     }
 
-    private static Number generateNumber(int min, int max) {
+    private static BigInteger generateNumber(int min, int max) {
         int digitsNumber = Operations.getRandomNumberInRange(min, max);
-        int[] digits = new int[digitsNumber];
+        StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < digitsNumber; i++) {
             if (i > 0) {
-                digits[i] = Operations.getRandomNumberInRange(0, 9);
+                sb.append(Operations.getRandomNumberInRange(0, 9));
             } else {
-                digits[i] = Operations.getRandomNumberInRange(1, 9);
+                sb.append(Operations.getRandomNumberInRange(1, 9));
             }
         }
-        return new Number(digits, false);
+        return new BigInteger(sb.toString());
     }
 
-    public static boolean fermatTest(Number number, int k) throws NegativeNumberException {
-        Number a;
-        int numberLength = number.getDigits().length;
+    public static boolean fermatTest(BigInteger number, int k) {
+        BigInteger a;
+        int numberLength = number.toString().length();
         for (int i = 0; i < k; i++) {
-            a = generateNumber(1, numberLength - 1);
-            System.out.println(a);
-            if (!a.modPower(number.subtract(Number.ONE), number).equals(Number.ONE)) {
+            a = generateNumber(2, numberLength - 1);
+            BigInteger m = a.modPow(number.subtract(BigInteger.ONE), number);
+            if (!m.equals(BigInteger.ONE)) {
                 return false;
             }
-            System.out.println(a);
         }
         return true;
     }
