@@ -90,11 +90,15 @@ class NumberTest {
 
     @Test
     void divide() throws NegativeNumberException, DivideRestException {
-        Number number1 = new Number("1000");
-        Number number2 = new Number("10");
+        long startTime = System.nanoTime();
+        Number number1 = new Number("641794641927864124872146129393012193418230921381093821390127412641287462174124214721094812094821904214214124");
+        Number number2 = new Number("1418753785902987595238957259827529582375832573259872598279875398275298357328957");
         Number rest = Number.ZERO;
-        Number result1 = number1.divide(number2, rest);
-        System.out.println(number1 + " : " + number2 + " = " + result1 + " + " + rest);
+        Number result = number1.divide(number2, rest);
+        assertEquals(new Number("452365060311986471205008697709"), result);
+        assertEquals(new Number("632617509271217274544376029156989422390410214867951800309910654638493928954611"), rest);
+        double duration = (System.nanoTime() - startTime) / 1000000.0;
+        assertTrue(duration < 15);
     }
 
     @Test

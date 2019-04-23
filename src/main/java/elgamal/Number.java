@@ -136,33 +136,6 @@ public class Number {
         return new Number(deleteZeros(tmp));
     }
 
-//    public Number divide(Number number, Number rest) throws DivideRestException, NegativeNumberException {
-//        Number product = new Number(digits);
-//        int diff = Math.abs(digits.length - number.getDigits().length - 1);
-//        Number divider = (new Number("10")).power(new Number(Integer.toString(diff)));
-//        if (rest != null) {
-//            rest.setValue(0);
-//        }
-//
-//        while (!product.isZero()) {
-//            try {
-//                product = product.subtract(number.multiply(divider));
-//                System.out.println(product);
-//                divider = divider.add(ONE);
-//            } catch (NegativeNumberException e) {
-//                if (rest != null) {
-//                    Number r = number.subtract(number.subtract(product));
-//                    rest.setDigits(r.getDigits());
-//                    break;
-//                } else {
-//                    throw new DivideRestException();
-//                }
-//            }
-//        }
-//
-//        return divider;
-//    }
-
     public Number divide2(Number number, Number rest) throws NegativeNumberException, DivideRestException {
         Number x = ZERO, last_x = ZERO, multiplier, last_multiplier = ONE;
         Number pi;
@@ -221,10 +194,11 @@ public class Number {
                     for (int n = collection.length - tmp.length - shift; n < collection.length; n++) {
                         collection[n] = 0;
                     }
-                    shift = collection.length - i;
+                    shift += tmp.length;
                     break;
                 }
                 if (split.isEqualOrGreaterThan(number)) {
+
                     for (int n = collection.length - tmp.length - shift; n < collection.length; n++) {
                         collection[n] = 0;
                     }
@@ -241,13 +215,15 @@ public class Number {
                     for (int m = collection.length - tmp.length - shift; m < collection.length - shift - tmp.length + rest_digits.length; m++) {
                         collection[m] = rest_digits[t++];
                     }
-                    shift = t - 1;
+                    shift += tmp.length - rest_digits.length;
+
                     break;
+                } else {
+                    if (results.size() - 1 < (collection.length - 1 - i)) {
+                        results.add(0);
+                    }
                 }
-                if (split.isZero()) {
-                    results.add(0);
-                    shift++;
-                }
+
                 if (i == 0) {
                     Number trest = new Number(collection);
                     rest.setDigits(trest.getDigits());
