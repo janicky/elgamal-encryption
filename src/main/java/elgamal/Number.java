@@ -218,6 +218,9 @@ public class Number {
                 Number split = new Number(tmp);
                 if (split.equals(number)) {
                     results.add(1);
+                    for (int n = collection.length - tmp.length - shift; n < collection.length; n++) {
+                        collection[n] = 0;
+                    }
                     shift = collection.length - i;
                     break;
                 }
@@ -240,6 +243,10 @@ public class Number {
                     }
                     shift = t - 1;
                     break;
+                }
+                if (split.isZero()) {
+                    results.add(0);
+                    shift++;
                 }
                 if (i == 0) {
                     Number trest = new Number(collection);

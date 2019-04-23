@@ -90,21 +90,11 @@ class NumberTest {
 
     @Test
     void divide() throws NegativeNumberException, DivideRestException {
-        Number number1 = new Number("10512387");
-        Number number2 = new Number("1234");
+        Number number1 = new Number("1000");
+        Number number2 = new Number("10");
         Number rest = Number.ZERO;
         Number result1 = number1.divide(number2, rest);
         System.out.println(number1 + " : " + number2 + " = " + result1 + " + " + rest);
-    }
-
-    @Test
-    void ttttt() throws NegativeNumberException, DivideRestException {
-        Number number1 = new Number("6403");
-        Number number2 = new Number("1234");
-        Number rest = Number.ZERO;
-        Number res = number1.divide2(number2, rest);
-        System.out.println(res);
-        System.out.println(rest);
     }
 
     @Test
@@ -130,12 +120,7 @@ class NumberTest {
         Number number1 = new Number("189361987412649864981461984142141414214125412543546754");
         Number number2 = new Number("1984326195264392187631287458745128745278425451241231");
         Number result1 = number1.mod(number2);
-        System.out.println(result1);
-
-//        Number number3 = new Number("16");
-//        Number number4 = new Number("2");
-//        Number result2 = number3.mod(number4);
-//        assertEquals(new Number("0"), result2);
+        assertEquals(new Number("10772629838854568094646112855079827139067121931835964"), result1);
     }
 
     @Test
