@@ -168,6 +168,17 @@ class NumberTest {
     }
 
     @Test
+    void getBinary() {
+        Number number1 = new Number("8");
+        boolean[] expected1 = new boolean[] { false, false, false, true };
+        assertArrayEquals(expected1, number1.getBinary());
+
+        Number number2 = new Number("9");
+        boolean[] expected2 = new boolean[] { true, false, false, true };
+        assertArrayEquals(expected2, number2.getBinary());
+    }
+
+    @Test
     void isZero() {
         Number number1 = new Number("0");
         assertTrue(number1.isZero());

@@ -269,11 +269,11 @@ public class Number {
         return result;
     }
 
-    public Number mod(Number m) throws NegativeNumberException {
+    public Number mod(Number m) {
         Number rest = ZERO;
         try {
             divide(m, rest);
-        } catch (DivideRestException e) {
+        } catch (Exception e) {
 //            ...
         }
         return rest;
@@ -291,7 +291,44 @@ public class Number {
 //            x = x.multiply(x);
 //        }
 //        return result;
-        return power(number).mod(m);
+        Number accum = new Number(digits);
+        if (number.isZero()) {
+            return Number.ONE;
+        }
+        boolean[] binary = number.getBinary();
+        int bitptr = binary.length - 1;
+        for (bitptr--; bitptr >= 0; bitptr--) {
+            accum = accum.multiply(accum).mod(m);
+            if (binary[bitptr]) {
+                accum = accum.multiply(this).mod(m);
+            }
+        }
+        return accum;
+    }
+
+    public boolean[] getBinary() {
+        if (binaryNumber != null) {
+            return binaryNumber;
+        }
+
+        List<Boolean> tmp = new ArrayList<>();
+        Number number = new Number(this.getDigits());
+
+        while (!number.isZero()) {
+            Number remainder = ZERO;
+            try {
+                number = number.divide(TWO, remainder);
+                tmp.add(!remainder.isZero());
+            } catch (Exception e) {
+                tmp.add(true);
+            }
+        }
+
+        binaryNumber = new boolean[tmp.size()];
+        for (int i = 0; i < tmp.size(); i++) {
+            binaryNumber[i] = tmp.get(i);
+        }
+        return binaryNumber;
     }
 
     public long getValue() throws OutOfRangeException {
