@@ -15,7 +15,7 @@ class KeyGeneratorTest {
     }
 
     @Test
-    void generateP() {
+    void generate() {
         keygen.generate();
     }
 

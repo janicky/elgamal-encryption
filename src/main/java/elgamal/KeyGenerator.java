@@ -14,7 +14,7 @@ public class KeyGenerator {
     public void generate() {
         BigInteger prime_number;
         while (true) {
-            prime_number = generateNumber(310, 320);
+            prime_number = generateNumber(10, 20);
             if (fermatTest(prime_number, 10)) {
                 p = prime_number;
                 break;
@@ -28,7 +28,7 @@ public class KeyGenerator {
         privateKey = new PrivateKey(a);
     }
 
-    private static BigInteger generateNumber(int min, int max) {
+    public static BigInteger generateNumber(int min, int max) {
         int digitsNumber = Operations.getRandomNumberInRange(min, max);
         StringBuilder sb = new StringBuilder();
 
