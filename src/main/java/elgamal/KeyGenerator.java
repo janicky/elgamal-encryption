@@ -1,10 +1,15 @@
 package elgamal;
 
+import elgamal.keys.PrivateKey;
+import elgamal.keys.PublicKey;
+
 import java.math.BigInteger;
 
 public class KeyGenerator {
 
     BigInteger p, g, a, h;
+    PublicKey publicKey;
+    PrivateKey privateKey;
 
     public void generate() {
         BigInteger prime_number;
@@ -18,6 +23,9 @@ public class KeyGenerator {
         g = generateNumber(2, p.toString().length() - 2);
         a = generateNumber(2, p.toString().length() - 2);
         h = g.modPow(a, p);
+
+        publicKey = new PublicKey(p, g, h);
+        privateKey = new PrivateKey(a);
     }
 
     private static BigInteger generateNumber(int min, int max) {
@@ -45,5 +53,13 @@ public class KeyGenerator {
             }
         }
         return true;
+    }
+
+    public PublicKey getPublicKey() {
+        return publicKey;
+    }
+
+    public PrivateKey getPrivateKey() {
+        return privateKey;
     }
 }
