@@ -1,25 +1,23 @@
 package elgamal;
 
-import elgamal.exceptions.DivideRestException;
-import elgamal.exceptions.NegativeNumberException;
-
 import java.math.BigInteger;
 
 public class KeyGenerator {
 
-    BigInteger p;
-    BigInteger g;
-    BigInteger a;
+    BigInteger p, g, a, h;
 
     public void generate() {
-        BigInteger pnumber = generateNumber(10, 50);
+        BigInteger prime_number;
         while (true) {
-            if (fermatTest(pnumber, 2)) {
+            prime_number = generateNumber(310, 320);
+            if (fermatTest(prime_number, 10)) {
+                p = prime_number;
                 break;
             }
-            pnumber = generateNumber(10, 50);
-            System.out.println(pnumber);
         }
+        g = generateNumber(2, p.toString().length() - 2);
+        a = generateNumber(2, p.toString().length() - 2);
+        h = g.modPow(a, p);
     }
 
     private static BigInteger generateNumber(int min, int max) {
@@ -48,17 +46,4 @@ public class KeyGenerator {
         }
         return true;
     }
-
-//    private String generateG(final String p) {
-//        StringBuilder sb = new StringBuilder();
-//        int digitsShift = Operations.getRandomNumberInRange(2, 5);
-//        for (int i = 0; i < p.length() - digitsShift; i++) {
-//            if (i > 1) {
-//                sb.append(Operations.getRandomNumberInRange(0, 9));
-//            } else {
-//                sb.append(p.charAt(i));
-//            }
-//        }
-//        return sb.toString();
-//    }
 }
