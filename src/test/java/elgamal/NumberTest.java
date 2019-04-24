@@ -131,14 +131,19 @@ class NumberTest {
 
     @Test
     void mod() {
-        Number number1 = new Number("812379821");
-        Number number2 = new Number("52431343");
+        Number number1 = new Number("151876602065670887910572761681");
+        Number number2 = new Number("5222314");
         Number result1 = number1.mod(number2);
-        assertEquals(new Number("25909676"), result1);
+        assertEquals(new Number("3262777"), result1);
     }
 
     @Test
     void modPower() {
+        Number number1 = new Number("389713487148791");
+        Number number2 = new Number("136586863");
+        Number number3 = new Number("5222314");
+        assertEquals(new Number("4996359"), number1.modPower(number2, number3));
+
         Number number4 = new Number("2");
         Number number5 = new Number("3");
         Number number6 = new Number("5");

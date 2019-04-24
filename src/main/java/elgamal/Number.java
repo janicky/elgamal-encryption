@@ -287,8 +287,10 @@ public class Number {
         boolean[] binary = number.getBinary();
         int bitptr = binary.length - 1;
         for (bitptr--; bitptr >= 0; bitptr--) {
+            System.out.println(accum.multiply(accum) + " (" + accum.multiply(accum) + " % " + m + ")");
             accum = accum.multiply(accum).mod(m);
             if (binary[bitptr]) {
+                System.out.println("TESTBIT");
                 accum = multiply(accum).mod(m);
             }
         }
@@ -325,7 +327,7 @@ public class Number {
         if (value != -1) {
             return value;
         }
-        if (digits.length >= 32) {
+        if (digits.length > 16) {
             throw new OutOfRangeException();
         }
         value = 0;
