@@ -17,12 +17,11 @@ class CryptographyTest {
 
     @BeforeEach
     void initialize() {
-        byte[] data = new byte[] { 1, 2, 3, 4 };
-        publicKey = new PublicKey(
-                new Number("1499562501887"),
-                new Number("54412"),
-                new Number("192888196932"));
-        privateKey = new PrivateKey(new Number("407984421"));
+        byte[] data = new byte[] { 1, 4, 6, 8 };
+        KeyGenerator keygen = new KeyGenerator();
+        keygen.generate();
+        publicKey = keygen.getPublicKey();
+        privateKey = keygen.getPrivateKey();
         encryption = new Encryption(data, publicKey);
     }
 
@@ -30,7 +29,8 @@ class CryptographyTest {
     void cryptography() throws CorruptedDataException {
         encryption.encrypt();
         Decryption d = new Decryption(encryption.getResults(), privateKey, publicKey);
+        System.out.println("------");
         d.decrypt();
-//        System.out.println(Arrays.toString(d.getResults()));
+        System.out.println(Arrays.toString(d.getResults()));
     }
 }

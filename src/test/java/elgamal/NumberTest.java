@@ -73,7 +73,7 @@ class NumberTest {
         Number number1 = new Number("111111221111111111111111133111111");
         Number number2 = new Number("111111221111111111111111133111111");
         Number result = number1.subtract(number2);
-        assertEquals(Number.ZERO, result);
+        assertEquals(new Number("0"), result);
 
         Number number3 = new Number("306401");
         Number number4 = new Number("243321");
@@ -91,21 +91,30 @@ class NumberTest {
     @Test
     void divide() throws NegativeNumberException, DivideRestException {
         long startTime = System.nanoTime();
-        Number number1 = new Number("659960973567992041");
+        Number number1 = new Number("659960996677794114073567992041");
         Number number2 = new Number("52431343");
-        Number rest = Number.ZERO;
+        Number rest = new Number("0");
         Number result = number1.divide(number2, rest);
-        assertEquals(new Number("12587146081"), result);
-        assertEquals(new Number("3975258"), rest);
+        assertEquals(new Number("12587146521838933518707"), result);
+        assertEquals(new Number("44358540"), rest);
         double duration = (System.nanoTime() - startTime) / 1000000.0;
         assertTrue(duration < 15);
     }
 
     @Test
+    void divide2() throws NegativeNumberException, DivideRestException {
+        Number number1 = new Number("966777941140");
+        Number number2 = new Number("508438147002");
+        Number rest = new Number("0");
+        Number result = number1.divide(number2, rest);
+        assertEquals(new Number("1"), result);
+    }
+    
+    @Test
     void longDivide() throws NegativeNumberException, DivideRestException {
         Number number1 = new Number("13");
         Number number2 = new Number("2");
-        Number rest = Number.ZERO;
+        Number rest = new Number("0");
         Number result = number1.divide(number2, rest);
         assertEquals(new Number("6"), result);
         assertEquals(new Number("1"), rest);
@@ -129,11 +138,11 @@ class NumberTest {
 
     @Test
     void modPower() {
-        Number number1 = new Number("389713487148791");
-        Number number2 = new Number("136586863");
-        Number number3 = new Number("5222314");
+        Number number1 = new Number("54412");
+        Number number2 = new Number("4985404482");
+        Number number3 = new Number("1499562501887");
         Number result = number1.modPower(number2, number3);
-        assertEquals(new Number("4996359"), result);
+        assertEquals(new Number("255181532452"), result);
 
         Number number4 = new Number("2");
         Number number5 = new Number("3");

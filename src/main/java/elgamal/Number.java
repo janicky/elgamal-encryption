@@ -3,8 +3,6 @@ package elgamal;
 import elgamal.exceptions.DivideRestException;
 import elgamal.exceptions.NegativeNumberException;
 import elgamal.exceptions.OutOfRangeException;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,7 +14,9 @@ public class Number {
     private long value = -1;
 
     public Number(int[] digits) {
-        this.digits = deleteZeros(digits);
+        int[] tmp = new int[digits.length];
+        System.arraycopy(digits, 0, tmp, 0, digits.length);
+        this.digits = deleteZeros(tmp);
     }
 
     public Number(int[] digits, boolean reversed) {
@@ -270,7 +270,7 @@ public class Number {
     }
 
     public Number mod(Number m) {
-        Number rest = ZERO;
+        Number rest = new Number("0");
         try {
             divide(m, rest);
         } catch (Exception e) {
@@ -282,7 +282,7 @@ public class Number {
     public Number modPower(Number number, Number m){
         Number accum = new Number(digits);
         if (number.isZero()) {
-            return Number.ONE;
+            return new Number("1");
         }
         boolean[] binary = number.getBinary();
 

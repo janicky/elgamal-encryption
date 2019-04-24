@@ -1,8 +1,6 @@
 package elgamal;
 
 import elgamal.exceptions.CorruptedDataException;
-import elgamal.exceptions.DivideRestException;
-import elgamal.exceptions.NegativeNumberException;
 import elgamal.exceptions.OutOfRangeException;
 import elgamal.keys.PrivateKey;
 import elgamal.keys.PublicKey;
@@ -32,16 +30,14 @@ public class Decryption extends Cryptography {
         for (int i = 0; i < (encrypted.length / 2); i++) {
             Number c1 = encrypted[i * 2];
             Number c2 = encrypted[i * 2 + 1];
+
             Number m = null;
             try {
                 m = c2.divide(c1.modPower(a, p), new Number("0"));
-            } catch (NegativeNumberException e) {
-                e.printStackTrace();
-            } catch (DivideRestException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             try {
-//                System.out.println(m);
                 results[i] = (byte)(m.getValue() & 0xff);
             } catch (OutOfRangeException e) {
                 e.printStackTrace();
