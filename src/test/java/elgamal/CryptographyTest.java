@@ -19,10 +19,10 @@ class CryptographyTest {
     void initialize() {
         byte[] data = new byte[] { 1, 2, 3, 4 };
         publicKey = new PublicKey(
-                new BigInteger("1499562501887"),
-                new BigInteger("54412"),
-                new BigInteger("192888196932"));
-        privateKey = new PrivateKey(new BigInteger("407984421"));
+                new Number("1499562501887"),
+                new Number("54412"),
+                new Number("192888196932"));
+        privateKey = new PrivateKey(new Number("407984421"));
         encryption = new Encryption(data, publicKey);
     }
 
@@ -31,6 +31,6 @@ class CryptographyTest {
         encryption.encrypt();
         Decryption d = new Decryption(encryption.getResults(), privateKey, publicKey);
         d.decrypt();
-        System.out.println(Arrays.toString(d.getResults()));
+//        System.out.println(Arrays.toString(d.getResults()));
     }
 }

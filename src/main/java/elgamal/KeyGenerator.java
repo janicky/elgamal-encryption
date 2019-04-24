@@ -1,5 +1,6 @@
 package elgamal;
 
+import elgamal.exceptions.NegativeNumberException;
 import elgamal.keys.PrivateKey;
 import elgamal.keys.PublicKey;
 
@@ -7,12 +8,12 @@ import java.math.BigInteger;
 
 public class KeyGenerator {
 
-    BigInteger p, g, a, h;
+    Number p, g, a, h;
     PublicKey publicKey;
     PrivateKey privateKey;
 
     public void generate() {
-        BigInteger prime_number;
+        Number prime_number;
         while (true) {
             prime_number = generateNumber(10, 20);
             if (fermatTest(prime_number, 10)) {
@@ -22,13 +23,13 @@ public class KeyGenerator {
         }
         g = generateNumber(2, p.toString().length() - 2);
         a = generateNumber(2, p.toString().length() - 2);
-        h = g.modPow(a, p);
+        h = g.modPower(a, p);
 
         publicKey = new PublicKey(p, g, h);
         privateKey = new PrivateKey(a);
     }
 
-    public static BigInteger generateNumber(int min, int max) {
+    public static Number generateNumber(int min, int max) {
         int digitsNumber = Operations.getRandomNumberInRange(min, max);
         StringBuilder sb = new StringBuilder();
 
@@ -39,16 +40,21 @@ public class KeyGenerator {
                 sb.append(Operations.getRandomNumberInRange(1, 9));
             }
         }
-        return new BigInteger(sb.toString());
+        return new Number(sb.toString());
     }
 
-    public static boolean fermatTest(BigInteger number, int k) {
-        BigInteger a;
+    public static boolean fermatTest(Number number, int k) {
+        Number a;
         int numberLength = number.toString().length();
         for (int i = 0; i < k; i++) {
             a = generateNumber(2, numberLength - 1);
-            BigInteger m = a.modPow(number.subtract(BigInteger.ONE), number);
-            if (!m.equals(BigInteger.ONE)) {
+            Number m = null;
+            try {
+                m = a.modPower(number.subtract(Number.ONE), number);
+            } catch (NegativeNumberException e) {
+                e.printStackTrace();
+            }
+            if (!m.equals(Number.ONE)) {
                 return false;
             }
         }

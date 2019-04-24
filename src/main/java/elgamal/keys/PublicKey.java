@@ -1,25 +1,25 @@
 package elgamal.keys;
 
-import java.math.BigInteger;
+import elgamal.Number;
 
 public class PublicKey {
-    BigInteger p, g, h;
+    Number p, g, h;
 
-    public PublicKey(BigInteger p, BigInteger g, BigInteger h) {
+    public PublicKey(Number p, Number g, Number h) {
         this.p = p;
         this.g = g;
         this.h = h;
     }
 
-    public BigInteger getP() {
+    public Number getP() {
         return p;
     }
 
-    public BigInteger getG() {
+    public Number getG() {
         return g;
     }
 
-    public BigInteger getH() {
+    public Number getH() {
         return h;
     }
 }

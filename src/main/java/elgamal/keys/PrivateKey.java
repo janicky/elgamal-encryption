@@ -1,15 +1,15 @@
 package elgamal.keys;
 
-import java.math.BigInteger;
+import elgamal.Number;
 
 public class PrivateKey {
-    private BigInteger a;
+    private Number a;
 
-    public PrivateKey(BigInteger a) {
+    public PrivateKey(Number a) {
         this.a = a;
     }
 
-    public BigInteger getA() {
+    public Number getA() {
         return a;
     }
 }
