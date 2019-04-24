@@ -112,16 +112,6 @@ class NumberTest {
     }
 
     @Test
-    void divide2() throws DivideRestException, NegativeNumberException {
-        Number number1 = new Number("2138971");
-        Number number2 = new Number("15");
-        Number rest = Number.ZERO;
-        Number result = number1.divide2(number2, rest);
-        assertEquals(Number.ONE, rest);
-        assertEquals(new Number("142598"), result);
-    }
-
-    @Test
     void power() {
         Number number1 = new Number("5");
         Number number2 = new Number("3");
@@ -142,7 +132,8 @@ class NumberTest {
         Number number1 = new Number("389713487148791");
         Number number2 = new Number("136586863");
         Number number3 = new Number("5222314");
-        assertEquals(new Number("4996359"), number1.modPower(number2, number3));
+        Number result = number1.modPower(number2, number3);
+        assertEquals(new Number("4996359"), result);
 
         Number number4 = new Number("2");
         Number number5 = new Number("3");
@@ -153,8 +144,8 @@ class NumberTest {
 
     @Test
     void getValue() throws OutOfRangeException {
-        Number number1 = new Number("659960973567992041");
-        assertEquals(659960973567992041L, number1.getValue());
+        Number number1 = new Number(Long.MAX_VALUE);
+        assertEquals(Long.MAX_VALUE, number1.getValue());
     }
 
     @Test

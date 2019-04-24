@@ -209,7 +209,7 @@ public class Number {
                         }
                         Number tmp_rest = new Number("0");
                         try {
-                            int res = (int) split.divide2(number, tmp_rest).getValue();
+                            int res = (int) split.divide(number, tmp_rest).getValue();
                             results.add(res);
                         } catch (OutOfRangeException e) {
                             e.printStackTrace();
@@ -285,12 +285,11 @@ public class Number {
             return Number.ONE;
         }
         boolean[] binary = number.getBinary();
+
         int bitptr = binary.length - 1;
         for (bitptr--; bitptr >= 0; bitptr--) {
-            System.out.println(accum.multiply(accum) + " (" + accum.multiply(accum) + " % " + m + ")");
             accum = accum.multiply(accum).mod(m);
             if (binary[bitptr]) {
-                System.out.println("TESTBIT");
                 accum = multiply(accum).mod(m);
             }
         }
@@ -303,14 +302,18 @@ public class Number {
         }
 
         List<Boolean> tmp = new ArrayList<>();
-        Number number = new Number(this.getDigits());
+        Number tmp_number = new Number(this.getDigits());
 
-        while (!number.isZero()) {
-            Number remainder = ZERO;
+        while (!tmp_number.isZero()) {
+            Number remainder = new Number(ZERO.getDigits());
             try {
-                number = number.divide(TWO, remainder);
+                tmp_number = tmp_number.divide(TWO, remainder);
                 tmp.add(!remainder.isZero());
             } catch (Exception e) {
+                tmp.add(true);
+                break;
+            }
+            if (tmp_number.equals(ONE)) {
                 tmp.add(true);
                 break;
             }
