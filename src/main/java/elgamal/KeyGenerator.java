@@ -4,8 +4,6 @@ import elgamal.exceptions.NegativeNumberException;
 import elgamal.keys.PrivateKey;
 import elgamal.keys.PublicKey;
 
-import java.math.BigInteger;
-
 public class KeyGenerator {
 
     Number p, g, a, h;
@@ -15,8 +13,8 @@ public class KeyGenerator {
     public void generate() {
         Number prime_number;
         while (true) {
-            prime_number = generateNumber(10, 20);
-            if (fermatTest(prime_number, 10)) {
+            prime_number = generateNumber(10, 12);
+            if (fermatTest(prime_number, 3)) {
                 p = prime_number;
                 break;
             }

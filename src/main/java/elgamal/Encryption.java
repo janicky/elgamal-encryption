@@ -2,8 +2,6 @@ package elgamal;
 
 import elgamal.keys.PublicKey;
 
-import java.math.BigInteger;
-
 public class Encryption extends Cryptography {
 
     private byte[] data;

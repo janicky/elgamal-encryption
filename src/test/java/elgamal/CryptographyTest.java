@@ -9,19 +9,23 @@ import org.junit.jupiter.api.Test;
 import java.math.BigInteger;
 import java.util.Arrays;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+
 class CryptographyTest {
 
     Encryption encryption;
     PublicKey publicKey;
     PrivateKey privateKey;
+    byte[] data;
 
     @BeforeEach
     void initialize() {
-        byte[] data = new byte[] { 1, 4, 6, 8 };
-        KeyGenerator keygen = new KeyGenerator();
-        keygen.generate();
-        publicKey = keygen.getPublicKey();
-        privateKey = keygen.getPrivateKey();
+        data = new byte[] { 1, 4, 6, 8 };
+        publicKey = new PublicKey(
+                new Number("1499562501887"),
+                new Number("54412"),
+                new Number("192888196932"));
+        privateKey = new PrivateKey(new Number("407984421"));
         encryption = new Encryption(data, publicKey);
     }
 
@@ -29,8 +33,7 @@ class CryptographyTest {
     void cryptography() throws CorruptedDataException {
         encryption.encrypt();
         Decryption d = new Decryption(encryption.getResults(), privateKey, publicKey);
-        System.out.println("------");
         d.decrypt();
-        System.out.println(Arrays.toString(d.getResults()));
+        assertArrayEquals(data, d.getResults());
     }
 }

@@ -174,7 +174,7 @@ public class Number {
         }
     }
 
-    public Number divide(Number number, Number rest) throws NegativeNumberException, DivideRestException {
+    public Number divide(Number number, Number rest) {
         try {
             long x = getValue();
             long y = number.getValue();
