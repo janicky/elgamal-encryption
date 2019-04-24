@@ -390,25 +390,6 @@ public class Number {
         return digits;
     }
 
-    public boolean isPrime() {
-        if (this.equals(ONE) || this.equals(ZERO)) {
-            return false;
-        }
-
-        Number iterator = TWO;
-        while (true) {
-            try {
-                if (this.equals(iterator)) {
-                    return true;
-                }
-                this.divide2(iterator);
-                return false;
-            } catch (DivideRestException e) {
-                iterator = iterator.add(ONE);
-            }
-        }
-    }
-
     public static int[] deleteZeros(int[] digits) {
         int[] tmp = digits;
 
