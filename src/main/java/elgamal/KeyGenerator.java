@@ -24,7 +24,7 @@ public class KeyGenerator {
         h = g.modPower(a, p);
 
         publicKey = new PublicKey(p, g, h);
-        privateKey = new PrivateKey(a);
+        privateKey = new PrivateKey(a, p);
     }
 
     public static Number generateNumber(int min, int max) {

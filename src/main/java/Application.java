@@ -20,8 +20,7 @@ public class Application {
     private JTextArea log;
     private JLabel infoInputFile;
     private JLabel infoBlocksCount;
-    private JLabel infoBlockSize;
-    private JTextArea cipherKey;
+    private JTextArea publicKey;
     private JButton enterCipherKey;
     private JButton encryptButton;
     private JButton decryptButton;
@@ -158,7 +157,7 @@ public class Application {
             sb.append(String.format(String.format("0x%02X ", (byte)c)));
         }
 
-        cipherKey.setText(sb.toString());
+        publicKey.setText(sb.toString());
         updateButtons();
     }
 
