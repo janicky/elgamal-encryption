@@ -1,21 +1,17 @@
 package elgamal;
 
 import elgamal.exceptions.CorruptedDataException;
-import elgamal.exceptions.OutOfRangeException;
 import elgamal.keys.PrivateKey;
-import elgamal.keys.PublicKey;
 
 public class Decryption extends Cryptography {
 
     Block[] encrypted;
     Block[] results;
     PrivateKey privateKey;
-    PublicKey publicKey;
 
-    public Decryption(Block[] encrypted, PrivateKey privateKey, PublicKey publicKey) {
+    public Decryption(Block[] encrypted, PrivateKey privateKey) {
         this.encrypted = encrypted;
         this.privateKey = privateKey;
-        this.publicKey = publicKey;
     }
 
     public void decrypt() throws CorruptedDataException {
@@ -24,7 +20,7 @@ public class Decryption extends Cryptography {
         }
 
         Number a = privateKey.getA();
-        Number p = publicKey.getP();
+        Number p = privateKey.getP();
 
         results = new Block[encrypted.length / 2];
         for (int i = 0; i < (encrypted.length / 2); i++) {
