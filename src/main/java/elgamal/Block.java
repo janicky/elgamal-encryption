@@ -1,5 +1,8 @@
 package elgamal;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Block {
 
     private short[] data;
@@ -19,6 +22,33 @@ public class Block {
             sb.append(digit);
         }
         return new Number(sb.toString());
+    }
+
+    public void setNumber(Number number) {
+        List<Short> tmp = new ArrayList<>();
+
+        String digits = number.toString();
+        StringBuilder db = new StringBuilder();
+        int prepared = 0;
+        for (int i = 0; i < digits.length(); i++) {
+            db.append(digits.charAt(i));
+            prepared++;
+            if (prepared == 3) {
+                tmp.add(Short.parseShort(db.toString()));
+                prepared = 0;
+                db = new StringBuilder();
+            }
+        }
+        if (prepared > 0) {
+            tmp.add(Short.parseShort(db.toString()));
+        }
+
+        short[] output = new short[tmp.size()];
+        for (int i = 0; i < output.length; i++) {
+            output[i] = tmp.get(i);
+        }
+
+        this.data = output;
     }
 
     public short[] getData() {

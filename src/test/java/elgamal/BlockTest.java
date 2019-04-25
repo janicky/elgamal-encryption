@@ -21,4 +21,12 @@ class BlockTest {
         Number number = block.getNumber();
         assertEquals("123255015099100", number.toString());
     }
+
+    @Test
+    void setNumber() {
+        Number number = new Number("123456001");
+        block.setNumber(number);
+        short[] expected = new short[] { 123, 456, 1 };
+        assertArrayEquals(expected, block.getData());
+    }
 }
