@@ -5,7 +5,8 @@ public class Block {
     private short[] data;
 
     public Block(short[] data) {
-        this.data = data;
+        this.data = new short[data.length];
+        System.arraycopy(data, 0, this.data, 0, data.length);
     }
 
     public Number getNumber() {
@@ -18,5 +19,23 @@ public class Block {
             sb.append(digit);
         }
         return new Number(sb.toString());
+    }
+
+    public short[] getData() {
+        return data;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        for (int i = 0; i < data.length; i++) {
+            sb.append(data[i]);
+            if (i != data.length - 1) {
+                sb.append(",");
+            }
+        }
+        sb.append("]");
+        return sb.toString();
     }
 }
