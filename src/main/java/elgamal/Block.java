@@ -12,11 +12,16 @@ public class Block {
         System.arraycopy(data, 0, this.data, 0, data.length);
     }
 
+    public Block(Number number) {
+        setNumber(number);
+    }
+
     public Number getNumber() {
         StringBuilder sb = new StringBuilder();
         for (short d : data) {
             StringBuilder digit = new StringBuilder(Short.toString(d));
-            for (int i = 0; i < 3 - digit.length(); i++) {
+            int condition = 3 - digit.length();
+            for (int i = 0; i < condition; i++) {
                 digit.insert(0, "0");
             }
             sb.append(digit);

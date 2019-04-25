@@ -12,14 +12,14 @@ class BlockTest {
 
     @BeforeEach
     void initialize() {
-        data = new short[] { 123, 255, 15, 99, 100 };
+        data = new short[] { 123, 255, 5, 99, 100 };
         block = new Block(data);
     }
 
     @Test
     void getNumber() {
         Number number = block.getNumber();
-        assertEquals("123255015099100", number.toString());
+        assertEquals("123255005099100", number.toString());
     }
 
     @Test
