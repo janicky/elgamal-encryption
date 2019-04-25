@@ -39,4 +39,16 @@ public class Operations {
 
         return output;
     }
+
+    public static byte[] blocksToBytes(Block[] blocks, int length) {
+        byte[] output = new byte[blocks.length * length];
+        int n = 0;
+        for (Block b : blocks) {
+            short[] data = b.getData();
+            for (int i = 0; i < data.length; i++) {
+                output[n++] = (byte)(data[i]);
+            }
+        }
+        return output;
+    }
 }
