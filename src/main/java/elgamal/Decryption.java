@@ -7,12 +7,12 @@ import elgamal.keys.PublicKey;
 
 public class Decryption extends Cryptography {
 
-    Number[] encrypted;
-    byte[] results;
+    Block[] encrypted;
+    Block[] results;
     PrivateKey privateKey;
     PublicKey publicKey;
 
-    public Decryption(Number[] encrypted, PrivateKey privateKey, PublicKey publicKey) {
+    public Decryption(Block[] encrypted, PrivateKey privateKey, PublicKey publicKey) {
         this.encrypted = encrypted;
         this.privateKey = privateKey;
         this.publicKey = publicKey;
@@ -26,10 +26,13 @@ public class Decryption extends Cryptography {
         Number a = privateKey.getA();
         Number p = publicKey.getP();
 
-        results = new byte[encrypted.length / 2];
+        results = new Block[encrypted.length / 2];
         for (int i = 0; i < (encrypted.length / 2); i++) {
-            Number c1 = encrypted[i * 2];
-            Number c2 = encrypted[i * 2 + 1];
+            Block b1 = encrypted[i * 2];
+            Block b2 = encrypted[i * 2 + 1];
+
+            Number c1 = b1.getNumber();
+            Number c2 = b2.getNumber();
 
             Number m = null;
             try {
@@ -37,15 +40,11 @@ public class Decryption extends Cryptography {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            try {
-                results[i] = (byte)(m.getValue() & 0xff);
-            } catch (OutOfRangeException e) {
-                e.printStackTrace();
-            }
+            results[i] = new Block(m);
         }
     }
 
-    public byte[] getResults() {
+    public Block[] getResults() {
         return results;
     }
 }

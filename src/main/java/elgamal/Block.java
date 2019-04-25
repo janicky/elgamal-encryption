@@ -33,6 +33,16 @@ public class Block {
         List<Short> tmp = new ArrayList<>();
 
         String digits = number.toString();
+        if (digits.length() % 3 != 0) {
+            StringBuilder f = new StringBuilder(digits);
+            if (digits.length() % 3 == 1) {
+                f.insert(0, "00");
+            } else {
+                f.insert(0, "0");
+            }
+            digits = f.toString();
+        }
+
         StringBuilder db = new StringBuilder();
         int prepared = 0;
         for (int i = 0; i < digits.length(); i++) {

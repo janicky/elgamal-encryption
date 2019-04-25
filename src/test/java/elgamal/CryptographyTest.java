@@ -6,7 +6,6 @@ import elgamal.keys.PublicKey;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.math.BigInteger;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -16,17 +15,19 @@ class CryptographyTest {
     Encryption encryption;
     PublicKey publicKey;
     PrivateKey privateKey;
-    byte[] data;
+    Block block;
+    short[] data;
 
     @BeforeEach
     void initialize() {
-        data = new byte[] { 1, 4, 6, 8 };
+        data = new short[] { 11, 4, 6, 255 };
+        block = new Block(data);
         publicKey = new PublicKey(
                 new Number("1499562501887"),
                 new Number("54412"),
                 new Number("192888196932"));
         privateKey = new PrivateKey(new Number("407984421"));
-        encryption = new Encryption(data, publicKey);
+        encryption = new Encryption(new Block[] { block }, publicKey);
     }
 
     @Test
@@ -34,6 +35,7 @@ class CryptographyTest {
         encryption.encrypt();
         Decryption d = new Decryption(encryption.getResults(), privateKey, publicKey);
         d.decrypt();
-        assertArrayEquals(data, d.getResults());
+        assertArrayEquals(data, block.getData());
+        assertArrayEquals(data, d.getResults()[0].getData());
     }
 }
