@@ -62,8 +62,10 @@ public class Application {
 //        Actions
         inputFile.addActionListener(e -> inputFileDialog());
         inputText.addActionListener(e -> inputTextDialog());
-        exportPublicKeyButton.addActionListener(e -> enterCipherKey());
+        exportPublicKeyButton.addActionListener(e -> exportCipherKey(true));
         importPublicKeyButton.addActionListener(e -> importCipherKey());
+        exportPrivateKeyButton.addActionListener(e -> exportCipherKey(false));
+        importPrivateKeyButton.addActionListener(e -> importCipherKey());
         encryptButton.addActionListener(e -> encrypt());
         decryptButton.addActionListener(e -> decrypt());
     }
@@ -98,17 +100,6 @@ public class Application {
 //        TODO: Implement text loading
         loadedFromFile = false;
         updateButtons();
-    }
-
-    private void enterCipherKey() {
-        String keyString = JOptionPane.showInputDialog(frame, "Enter cipher key (16 characters):");
-//        TODO: Change key conditions
-        if (keyString != null && keyString.length() == 16) {
-            updateCipherKey(keyString);
-            log("Cipher key added.");
-        } else if(keyString != null) {
-            JOptionPane.showMessageDialog(frame,"Cipher key must have exactly 16 characters.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
     }
 
     private void importCipherKey() {
@@ -153,20 +144,39 @@ public class Application {
                 }
             }
         } else {
-            JOptionPane.showMessageDialog(frame,"Key doesn't exists. Please first enter cipher key.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(frame,"Key doesn't exists. Please first import key.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
-    private void updateCipherKey(String keyString) {
-//        key = new Key(keyString);
-//        TODO: Implement key display method
-        StringBuilder sb = new StringBuilder();
+    private void generateKey() {
+        String number = JOptionPane.showInputDialog("Key length [5-400]: ");
+        try {
+            int length = Integer.parseInt(number);
+            if (length < 5 || length > 400) {
+                throw new Exception("Invalid key length (only in range 5 - 400).");
+            }
+            KeyGenerator keygen = new KeyGenerator(length);
+            keygen.generate();
+            publicKey = keygen.getPublicKey();
+            log("Public key generated.");
+            privateKey = keygen.getPrivateKey();
+            log("Private key generated.");
+            updateKeys();
 
-        for (char c : keyString.toCharArray()) {
-            sb.append(String.format(String.format("0x%02X ", (byte)c)));
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(frame,"Invalid number format.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(frame,e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
 
-        publicKeyTextarea.setText(sb.toString());
+    private void updateKeys() {
+        if (publicKey != null) {
+            publicKeyTextarea.setText(publicKey.toString());
+        }
+        if (privateKey != null) {
+            privateKeyTextarea.setText(privateKey.toString());
+        }
         updateButtons();
     }
 
@@ -292,19 +302,13 @@ public class Application {
         file.add(file_item_1);
 
 //        Key
-        JMenu key = new JMenu("Cipher key");
+        JMenu key = new JMenu("Key");
         menuBar.add(key);
 
-        JMenuItem key_item_1 = new JMenuItem("Import key");
-        key_item_1.addActionListener(e -> importCipherKey());
-        JMenuItem key_item_2 = new JMenuItem("Export key");
-//        key_item_2.addActionListener(e -> exportCipherKey());
-        JMenuItem key_item_3 = new JMenuItem("Enter key");
-        key_item_3.addActionListener(e -> enterCipherKey());
+        JMenuItem key_item_1 = new JMenuItem("Generate key");
+        key_item_1.addActionListener(e -> generateKey());
 
         key.add(key_item_1);
-        key.add(key_item_2);
-        key.add(key_item_3);
 
         frame.setJMenuBar(menuBar);
     }

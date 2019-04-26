@@ -10,7 +10,7 @@ class KeyGeneratorTest {
 
     @BeforeEach
     void initialize() {
-        keygen = new KeyGenerator();
+        keygen = new KeyGenerator(10);
     }
 
     @Test

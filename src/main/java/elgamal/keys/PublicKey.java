@@ -37,4 +37,21 @@ public class PublicKey implements Key {
         System.arraycopy(h_bytes, 0, output, p_bytes.length + 2 + g_bytes.length, h_bytes.length);
         return output;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (int d : p.getDigits()) {
+            sb.append(d);
+        }
+        sb.append("%");
+        for (int d : g.getDigits()) {
+            sb.append(d);
+        }
+        sb.append("%");
+        for (int d : h.getDigits()) {
+            sb.append(d);
+        }
+        return sb.toString();
+    }
 }
