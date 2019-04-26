@@ -39,6 +39,7 @@ public class Application {
 
 //    Model
     private Block[] blocks;
+    private byte[] data;
     private JFileChooser inputChooser;
     private PrivateKey privateKey;
     private PublicKey publicKey;
@@ -80,11 +81,11 @@ public class Application {
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             String selectedFile = inputChooser.getSelectedFile().getPath();
             try {
-//                blocks = DataUtils.loadFile(selectedFile);
-//                String message = blocks.length + " data blocks have been loaded.";
-//                log("File " + inputChooser.getSelectedFile().getName() + " loaded.");
-//                log(message);
-//                TODO: Implement file loading
+                data = DataUtils.loadBytes(selectedFile);
+
+                String message = data.length + " bytes have been loaded.";
+                log("File " + inputChooser.getSelectedFile().getName() + " loaded.");
+                log(message);
                 infoInputFile.setText(inputChooser.getSelectedFile().getName());
                 updateButtons();
                 loadedFromFile = true;
@@ -97,11 +98,10 @@ public class Application {
     }
 
     public void inputTextDialog() {
-//        String input = inputTextArea.getText();
-//        blocks = DataUtils.loadText(input);
-//        log("Text has been loaded.");
-//        log(blocks.length + " data blocks have been loaded.");
-//        TODO: Implement text loading
+        String input = inputTextArea.getText();
+        data = input.getBytes();
+        log("Text has been loaded.");
+        log(data.length + " bytes have been loaded.");
         loadedFromFile = false;
         updateButtons();
     }
@@ -295,7 +295,7 @@ public class Application {
     }
 
     private void _updateButtons() {
-        if (blocks != null && blocks.length > 0) {
+        if (data != null && data.length > 0) {
             encryptButton.setEnabled(publicKey != null);
             decryptButton.setEnabled(privateKey != null);
         } else {
