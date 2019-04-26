@@ -21,14 +21,7 @@ public class PrivateKey implements Key {
     }
 
     public byte[] getBytes() {
-        byte separator = '%';
-        byte[] a_bytes = a.toString().getBytes();
-        byte[] p_bytes = p.toString().getBytes();
-        byte[] output = new byte[a_bytes.length + 1 + p_bytes.length];
-        System.arraycopy(a_bytes, 0, output, 0, a_bytes.length);
-        output[a_bytes.length] = separator;
-        System.arraycopy(p_bytes, 0, output, a_bytes.length + 1, p_bytes.length);
-        return output;
+        return toString().getBytes();
     }
 
     @Override

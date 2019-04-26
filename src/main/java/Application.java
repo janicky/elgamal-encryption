@@ -35,6 +35,7 @@ public class Application {
     private DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
 //    Model
+    private Block[] blocks;
     private JFileChooser inputChooser;
     private PrivateKey privateKey;
     private PublicKey publicKey;
@@ -268,18 +269,17 @@ public class Application {
     }
 
     private void updateButtons() {
-//        TODO: Implement update buttons method
-//        if (blocks != null && blocks.length > 0 && key != null) {
-//            canProcess = true;
-//        } else {
-//            canProcess = false;
-//        }
         _updateButtons();
     }
 
     private void _updateButtons() {
-        encryptButton.setEnabled(canProcess);
-        decryptButton.setEnabled(canProcess);
+        if (blocks != null && blocks.length > 0) {
+            encryptButton.setEnabled(publicKey != null);
+            decryptButton.setEnabled(privateKey != null);
+        } else {
+            encryptButton.setEnabled(false);
+            decryptButton.setEnabled(false);
+        }
     }
 
     private void log(String message) {
