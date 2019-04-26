@@ -1,4 +1,6 @@
 import elgamal.*;
+import elgamal.keys.PrivateKey;
+import elgamal.keys.PublicKey;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -20,7 +22,7 @@ public class Application {
     private JTextArea log;
     private JLabel infoInputFile;
     private JLabel infoBlocksCount;
-    private JTextArea publicKey;
+    private JTextArea publicKeyTextarea;
     private JButton exportPublicKeyButton;
     private JButton encryptButton;
     private JButton decryptButton;
@@ -29,11 +31,13 @@ public class Application {
     private JTextArea outputTextArea;
     private JButton importPrivateKeyButton;
     private JButton exportPrivateKeyButton;
+    private JTextArea privateKeyTextarea;
     private DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
 //    Model
     private JFileChooser inputChooser;
-    private Key key;
+    private PrivateKey privateKey;
+    private PublicKey publicKey;
     private boolean canProcess = false;
     private boolean loadedFromFile = false;
 
@@ -131,16 +135,17 @@ public class Application {
         }
     }
 
-    private void exportCipherKey() {
+    private void exportCipherKey(boolean type) {
+//        true - public, false - private
+        Key key = (type ? publicKey : privateKey);
         if (key != null) {
             JFileChooser keyChooser = new JFileChooser();
             int returnValue = keyChooser.showSaveDialog(mainPanel);
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 String selectedPath = keyChooser.getSelectedFile().getAbsolutePath();
                 try {
-//                    DataUtils.saveBytes(key.getBytes(), selectedPath);
-//                    log("Cipher key exported.");
-//                    TODO: Implement cipher key export
+                    DataUtils.saveBytes(key.getBytes(), selectedPath);
+                    log("Cipher key exported.");
                 } catch (Exception ex) {
                     String message = "Could not save file: " + selectedPath;
                     log(message);
@@ -161,12 +166,12 @@ public class Application {
             sb.append(String.format(String.format("0x%02X ", (byte)c)));
         }
 
-        publicKey.setText(sb.toString());
+        publicKeyTextarea.setText(sb.toString());
         updateButtons();
     }
 
     private void encrypt() {
-        if (key != null) {
+        if (publicKey != null) {
             canProcess = false;
             _updateButtons();
 
@@ -203,7 +208,7 @@ public class Application {
     }
 
     private void decrypt() {
-        if (key != null) {
+        if (privateKey != null) {
             canProcess = false;
             _updateButtons();
 
@@ -293,7 +298,7 @@ public class Application {
         JMenuItem key_item_1 = new JMenuItem("Import key");
         key_item_1.addActionListener(e -> importCipherKey());
         JMenuItem key_item_2 = new JMenuItem("Export key");
-        key_item_2.addActionListener(e -> exportCipherKey());
+//        key_item_2.addActionListener(e -> exportCipherKey());
         JMenuItem key_item_3 = new JMenuItem("Enter key");
         key_item_3.addActionListener(e -> enterCipherKey());
 

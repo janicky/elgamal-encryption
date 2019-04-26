@@ -1,8 +1,9 @@
 package elgamal.keys;
 
+import elgamal.Key;
 import elgamal.Number;
 
-public class PublicKey {
+public class PublicKey implements Key {
     Number p, g, h;
 
     public PublicKey(Number p, Number g, Number h) {
@@ -21,5 +22,19 @@ public class PublicKey {
 
     public Number getH() {
         return h;
+    }
+
+    public byte[] getBytes() {
+        byte separator = '%';
+        byte[] p_bytes = p.toString().getBytes();
+        byte[] g_bytes = g.toString().getBytes();
+        byte[] h_bytes = h.toString().getBytes();
+        byte[] output = new byte[p_bytes.length + g_bytes.length + h_bytes.length + 2];
+        System.arraycopy(p_bytes, 0, output, 0, p_bytes.length);
+        output[p_bytes.length] = separator;
+        System.arraycopy(g_bytes, 0, output, p_bytes.length + 1, g_bytes.length);
+        output[p_bytes.length + 1 + g_bytes.length] = separator;
+        System.arraycopy(h_bytes, 0, output, p_bytes.length + 2 + g_bytes.length, h_bytes.length);
+        return output;
     }
 }

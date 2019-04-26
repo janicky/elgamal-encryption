@@ -288,7 +288,7 @@
                           <color color="-10066330"/>
                         </border>
                         <children>
-                          <component id="bb5b2" class="javax.swing.JTextArea" binding="publicKey">
+                          <component id="bb5b2" class="javax.swing.JTextArea" binding="publicKeyTextarea">
                             <constraints>
                               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
                                 <preferred-size width="150" height="50"/>
@@ -389,7 +389,7 @@
                           <color color="-10066330"/>
                         </border>
                         <children>
-                          <component id="56b28" class="javax.swing.JTextArea">
+                          <component id="56b28" class="javax.swing.JTextArea" binding="privateKeyTextarea">
                             <constraints>
                               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
                                 <preferred-size width="150" height="50"/>
