@@ -1,18 +1,26 @@
 package elgamal;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Block {
 
     private short[] data;
+    private int length;
 
-    public Block(short[] data) {
-        this.data = new short[data.length];
-        System.arraycopy(data, 0, this.data, 0, data.length);
+    public Block(short[] data, int length) {
+        this.data = new short[2 * length];
+        this.length = length;
+        if (data.length > length) {
+            return;
+        }
+
+        System.arraycopy(data, 0, this.data, length * 2 - data.length, data.length);
     }
 
-    public Block(Number number) {
+    public Block(Number number, int length) {
+        this.length = length;
         setNumber(number);
     }
 
@@ -20,7 +28,7 @@ public class Block {
         StringBuilder sb = new StringBuilder();
         for (short d : data) {
             StringBuilder digit = new StringBuilder(Short.toString(d));
-            int condition = 3 - digit.length();
+            int condition = 2 - digit.length();
             for (int i = 0; i < condition; i++) {
                 digit.insert(0, "0");
             }
@@ -33,13 +41,9 @@ public class Block {
         List<Short> tmp = new ArrayList<>();
 
         String digits = number.toString();
-        if (digits.length() % 3 != 0) {
+        if (digits.length() % 2 != 0) {
             StringBuilder f = new StringBuilder(digits);
-            if (digits.length() % 3 == 1) {
-                f.insert(0, "00");
-            } else {
-                f.insert(0, "0");
-            }
+            f.insert(0, "0");
             digits = f.toString();
         }
 
@@ -48,7 +52,7 @@ public class Block {
         for (int i = 0; i < digits.length(); i++) {
             db.append(digits.charAt(i));
             prepared++;
-            if (prepared == 3) {
+            if (prepared == 2) {
                 tmp.add(Short.parseShort(db.toString()));
                 prepared = 0;
                 db = new StringBuilder();
@@ -63,7 +67,9 @@ public class Block {
             output[i] = tmp.get(i);
         }
 
-        this.data = output;
+
+        data = new short[length * 2];
+        System.arraycopy(output, 0, data, length * 2 - output.length, output.length);
     }
 
     public short[] getData() {

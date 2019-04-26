@@ -26,8 +26,8 @@ public class Encryption extends Cryptography {
             Number c1 = g.modPower(r, p);
             Number c2 = m.multiply(h.modPower(r, p));
 
-            results[i * 2] = new Block(c1);
-            results[i * 2 + 1] = new Block(c2);
+            results[i * 2] = new Block(c1, publicKey.getMaxLength());
+            results[i * 2 + 1] = new Block(c2, publicKey.getMaxLength());
         }
     }
 

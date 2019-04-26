@@ -12,21 +12,21 @@ class BlockTest {
 
     @BeforeEach
     void initialize() {
-        data = new short[] { 123, 255, 5, 99, 100 };
-        block = new Block(data);
+        data = new short[] { 12, 25, 5, 99, 10 };
+        block = new Block(data, 6);
     }
 
     @Test
     void getNumber() {
         Number number = block.getNumber();
-        assertEquals("123255005099100", number.toString());
+        assertEquals("1225059910", number.toString());
     }
 
     @Test
     void setNumber() {
-        Number number = new Number("123456001");
+        Number number = new Number("1234560001");
         block.setNumber(number);
-        short[] expected = new short[] { 123, 456, 1 };
+        short[] expected = new short[] { 12, 34, 56, 0, 1 };
         assertArrayEquals(expected, block.getData());
     }
 }

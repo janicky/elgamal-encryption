@@ -41,7 +41,7 @@ public class Decryption extends Cryptography {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            results[i] = new Block(m);
+            results[i] = new Block(m, privateKey.getMaxLength());
         }
     }
 

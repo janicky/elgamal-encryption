@@ -216,6 +216,11 @@ public class Application {
             encryption.encrypt();
             log("Encryption completed successfully.");
 
+            System.out.println("E Blocks in:");
+            for (Block b : blocks) {
+                System.out.println(Arrays.toString(b.getData()));
+            }
+
             byte[] bytes = Operations.blocksToBytes(encryption.getResults(), publicKey.getMaxLength());
 
             if (loadedFromFile) {
@@ -233,8 +238,10 @@ public class Application {
                     }
                 }
             } else {
-                System.out.println(Arrays.toString(data));
-                System.out.println(Arrays.toString(bytes));
+                System.out.println("E Blocks out:");
+                for (Block b : encryption.getResults()) {
+                    System.out.println(Arrays.toString(b.getData()));
+                }
                 outputTextArea.setText(new String(bytes));
             }
             canProcess = true;
@@ -257,6 +264,11 @@ public class Application {
                 log("Decryption completed successfully.");
                 byte[] bytes = Operations.blocksToBytes(decryption.getResults(), privateKey.getMaxLength());
 
+                System.out.println("D Blocks in:");
+                for (Block b : blocks) {
+                    System.out.println(Arrays.toString(b.getData()));
+                }
+
                 if (loadedFromFile) {
                     JFileChooser keyChooser = new JFileChooser();
                     int returnValue = keyChooser.showSaveDialog(mainPanel);
@@ -272,8 +284,10 @@ public class Application {
                         }
                     }
                 } else {
-                    System.out.println(Arrays.toString(data));
-                    System.out.println(Arrays.toString(bytes));
+                    System.out.println("D Blocks out:");
+                    for (Block b : decryption.getResults()) {
+                        System.out.println(Arrays.toString(b.getData()));
+                    }
                     outputTextArea.setText(new String(bytes));
                 }
             } catch (CorruptedDataException e) {

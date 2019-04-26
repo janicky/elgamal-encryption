@@ -22,14 +22,14 @@ public class Operations {
         for (int i = 0; i < data.length; i++) {
             split[i % length] = (short)((short)data[i] & 0xff);
             prepared++;
-            if (prepared == length) {
-                blocks.add(new Block(split));
+            if (prepared == length * 2) {
+                blocks.add(new Block(split, length));
                 Arrays.fill(split, (short)0);
                 prepared = 0;
             }
         }
         if (prepared > 0) {
-            blocks.add(new Block(split));
+            blocks.add(new Block(split, length));
         }
 
         Block[] output = new Block[blocks.size()];
@@ -41,7 +41,7 @@ public class Operations {
     }
 
     public static byte[] blocksToBytes(Block[] blocks, int length) {
-        byte[] output = new byte[blocks.length * length];
+        byte[] output = new byte[blocks.length * length * 2];
         int n = 0;
         for (Block b : blocks) {
             short[] data = b.getData();

@@ -30,4 +30,5 @@ class OperationsTest {
         byte[] bytes = Operations.blocksToBytes(blocks, length);
         assertArrayEquals(data, bytes);
     }
+
 }
