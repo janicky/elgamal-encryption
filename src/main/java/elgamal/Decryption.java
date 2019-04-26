@@ -32,7 +32,12 @@ public class Decryption extends Cryptography {
 
             Number m = null;
             try {
-                m = c2.divide(c1.modPower(a, p), new Number("0"));
+                c1 = c1.modPower(a, p);
+                if (c1.isZero()) {
+                    m = Number.ZERO;
+                } else {
+                    m = c2.divide(c1, new Number("0"));
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }

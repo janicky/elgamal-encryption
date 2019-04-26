@@ -1,5 +1,6 @@
 import elgamal.*;
 import elgamal.Number;
+import elgamal.exceptions.CorruptedDataException;
 import elgamal.keys.PrivateKey;
 import elgamal.keys.PublicKey;
 
@@ -10,6 +11,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -38,7 +40,6 @@ public class Application {
     private DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
 //    Model
-    private Block[] blocks;
     private byte[] data;
     private JFileChooser inputChooser;
     private PrivateKey privateKey;
@@ -209,12 +210,13 @@ public class Application {
             _updateButtons();
 
             log("Preparing encryption...");
-//            Encryption encryption = new Encryption(blocks, key);
-//            TODO: Uncomment encryption instance
+            Block[] blocks = Operations.generateBlocks(data, publicKey.getMaxLength());
+            Encryption encryption = new Encryption(blocks, publicKey);
             log("Starting encryption...");
-//            encryption.encrypt();
-//            TODO: Uncomment encrypt action
+            encryption.encrypt();
             log("Encryption completed successfully.");
+
+            byte[] bytes = Operations.blocksToBytes(encryption.getResults(), publicKey.getMaxLength());
 
             if (loadedFromFile) {
                 JFileChooser keyChooser = new JFileChooser();
@@ -222,8 +224,7 @@ public class Application {
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
                     String selectedPath = keyChooser.getSelectedFile().getAbsolutePath();
                     try {
-//                        DataUtils.saveFile(encryption.getBlocks(), selectedPath);
-//                        TODO: Implement encrypted file save
+                        DataUtils.saveBytes(bytes, selectedPath);
                         log("Encrypted data saved: " + selectedPath);
                     } catch (Exception ex) {
                         String message = "Could not save file: " + selectedPath;
@@ -232,8 +233,9 @@ public class Application {
                     }
                 }
             } else {
-//                outputTextArea.setText(DataUtils.saveText(encryption.getBlocks()));
-//                TODO: Implement encrypted text display
+                System.out.println(Arrays.toString(data));
+                System.out.println(Arrays.toString(bytes));
+                outputTextArea.setText(new String(bytes));
             }
             canProcess = true;
             _updateButtons();
@@ -246,31 +248,38 @@ public class Application {
             _updateButtons();
 
             log("Preparing decryption...");
-//            Decryption decryption = new Decryption(blocks, key);
-//            TODO: Uncomment decryption instance
+            Block[] blocks = Operations.generateBlocks(data, privateKey.getMaxLength());
+            Decryption decryption = new Decryption(blocks, privateKey);
             log("Starting decryption...");
-//            decryption.decrypt();
-//            TODO: Uncomment decrypt action
-            log("Decryption completed successfully.");
 
-            if (loadedFromFile) {
-                JFileChooser keyChooser = new JFileChooser();
-                int returnValue = keyChooser.showSaveDialog(mainPanel);
-                if (returnValue == JFileChooser.APPROVE_OPTION) {
-                    String selectedPath = keyChooser.getSelectedFile().getAbsolutePath();
-                    try {
-//                        DataUtils.saveFile(decryption.getBlocks(), selectedPath);
-//                        TODO: Implement encrypted file save
-                        log("Decrypted data saved: " + selectedPath);
-                    } catch (Exception ex) {
-                        String message = "Could not save file: " + selectedPath;
-                        log(message);
-                        JOptionPane.showMessageDialog(frame, message, "Save error", JOptionPane.ERROR_MESSAGE);
+            try {
+                decryption.decrypt();
+                log("Decryption completed successfully.");
+                byte[] bytes = Operations.blocksToBytes(decryption.getResults(), privateKey.getMaxLength());
+
+                if (loadedFromFile) {
+                    JFileChooser keyChooser = new JFileChooser();
+                    int returnValue = keyChooser.showSaveDialog(mainPanel);
+                    if (returnValue == JFileChooser.APPROVE_OPTION) {
+                        String selectedPath = keyChooser.getSelectedFile().getAbsolutePath();
+                        try {
+                        DataUtils.saveBytes(bytes, selectedPath);
+                            log("Decrypted data saved: " + selectedPath);
+                        } catch (Exception ex) {
+                            String message = "Could not save file: " + selectedPath;
+                            log(message);
+                            JOptionPane.showMessageDialog(frame, message, "Save error", JOptionPane.ERROR_MESSAGE);
+                        }
                     }
+                } else {
+                    System.out.println(Arrays.toString(data));
+                    System.out.println(Arrays.toString(bytes));
+                    outputTextArea.setText(new String(bytes));
                 }
-            } else {
-//                outputTextArea.setText(DataUtils.saveText(decryption.getBlocks()));
-//                TODO: Implement decrypted text display
+            } catch (CorruptedDataException e) {
+                String message = "Corrupted data.";
+                log(message);
+                JOptionPane.showMessageDialog(frame, message, "Decryption error", JOptionPane.ERROR_MESSAGE);
             }
 
             canProcess = true;

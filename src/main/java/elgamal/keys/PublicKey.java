@@ -48,4 +48,8 @@ public class PublicKey implements Key {
     public static String getPattern() {
         return "^([0-9]+)\\%([0-9]+)\\%([0-9]+)$";
     }
+
+    public int getMaxLength() {
+        return p.toString().length() - 1;
+    }
 }

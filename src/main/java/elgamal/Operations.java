@@ -46,7 +46,7 @@ public class Operations {
         for (Block b : blocks) {
             short[] data = b.getData();
             for (int i = 0; i < data.length; i++) {
-                output[n++] = (byte)(data[i]);
+                output[n++] = (byte)(data[i] & 0xff);
             }
         }
         return output;
