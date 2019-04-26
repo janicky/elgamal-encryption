@@ -16,17 +16,19 @@ public class Application {
     public JPanel mainPanel;
 
     private JButton inputFile;
-    private JButton importCipherKeyButton;
+    private JButton importPublicKeyButton;
     private JTextArea log;
     private JLabel infoInputFile;
     private JLabel infoBlocksCount;
     private JTextArea publicKey;
-    private JButton enterCipherKey;
+    private JButton exportPublicKeyButton;
     private JButton encryptButton;
     private JButton decryptButton;
     private JButton inputText;
     private JTextArea inputTextArea;
     private JTextArea outputTextArea;
+    private JButton importPrivateKeyButton;
+    private JButton exportPrivateKeyButton;
     private DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
 //    Model
@@ -45,8 +47,10 @@ public class Application {
 //        Buttons
         setIcon(inputFile, "file_in.png");
         setIcon(inputText, "keyboard.png");
-        setIcon(importCipherKeyButton, "cipher_key.png");
-        setIcon(enterCipherKey, "keyboard.png");
+        setIcon(importPublicKeyButton, "cipher_key.png");
+        setIcon(exportPublicKeyButton, "cipher_key.png");
+        setIcon(importPrivateKeyButton, "cipher_key.png");
+        setIcon(exportPrivateKeyButton, "cipher_key.png");
 
         encryptButton.setEnabled(canProcess);
         decryptButton.setEnabled(canProcess);
@@ -54,8 +58,8 @@ public class Application {
 //        Actions
         inputFile.addActionListener(e -> inputFileDialog());
         inputText.addActionListener(e -> inputTextDialog());
-        enterCipherKey.addActionListener(e -> enterCipherKey());
-        importCipherKeyButton.addActionListener(e -> importCipherKey());
+        exportPublicKeyButton.addActionListener(e -> enterCipherKey());
+        importPublicKeyButton.addActionListener(e -> importCipherKey());
         encryptButton.addActionListener(e -> encrypt());
         decryptButton.addActionListener(e -> decrypt());
     }
