@@ -36,4 +36,8 @@ public class PrivateKey implements Key {
         }
         return sb.toString();
     }
+
+    public static String getPattern() {
+        return "^([0-9]+)\\%([0-9]+)$";
+    }
 }

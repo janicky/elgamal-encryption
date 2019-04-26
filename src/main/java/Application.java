@@ -1,4 +1,5 @@
 import elgamal.*;
+import elgamal.Number;
 import elgamal.keys.PrivateKey;
 import elgamal.keys.PublicKey;
 
@@ -10,6 +11,8 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Application {
 //    Frame
@@ -64,9 +67,9 @@ public class Application {
         inputFile.addActionListener(e -> inputFileDialog());
         inputText.addActionListener(e -> inputTextDialog());
         exportPublicKeyButton.addActionListener(e -> exportCipherKey(true));
-        importPublicKeyButton.addActionListener(e -> importCipherKey());
+        importPublicKeyButton.addActionListener(e -> importCipherKey(true));
         exportPrivateKeyButton.addActionListener(e -> exportCipherKey(false));
-        importPrivateKeyButton.addActionListener(e -> importCipherKey());
+        importPrivateKeyButton.addActionListener(e -> importCipherKey(false));
         encryptButton.addActionListener(e -> encrypt());
         decryptButton.addActionListener(e -> decrypt());
     }
@@ -103,26 +106,45 @@ public class Application {
         updateButtons();
     }
 
-    private void importCipherKey() {
+    private void importCipherKey(boolean type) {
+//        true - public, false - private
+        String pattern_string = (type ? PublicKey.getPattern() : PrivateKey.getPattern());
+
         JFileChooser keyChooser = new JFileChooser();
         int returnValue = keyChooser.showOpenDialog(mainPanel);
         if (returnValue == JFileChooser.APPROVE_OPTION) {
             String selectedFile = keyChooser.getSelectedFile().getPath();
             try {
                 byte[] bytes = DataUtils.loadBytes(selectedFile);
-//                TODO: Update cipher key import conditions
-                if (bytes.length == 16) {
-//                    key = new Key(bytes);
-//                    updateCipherKey(new String(bytes));
-//                    log("Cipher key imported.");
-//                    TODO: Implement cipher key import
-                } else {
-                    JOptionPane.showMessageDialog(frame,"Cipher key must have exactly 16 characters.", "Error", JOptionPane.ERROR_MESSAGE);
+                String key_string = new String(bytes);
+                Pattern pattern = Pattern.compile(pattern_string);
+                Matcher matcher = pattern.matcher(key_string);
+                boolean valid = matcher.matches();
+                if (!valid) {
+                    throw new Exception("Invalid key");
                 }
+
+                if (type) {
+                    Number p = new Number(matcher.group(1));
+                    Number g = new Number(matcher.group(2));
+                    Number h = new Number(matcher.group(3));
+                    publicKey = new PublicKey(p, g, h);
+                    log("Public key imported.");
+                } else {
+                    Number a = new Number(matcher.group(1));
+                    Number p = new Number(matcher.group(2));
+                    privateKey = new PrivateKey(a, p);
+                    log("Private key imported.");
+                }
+
+                updateKeys();
+
             } catch (IOException ex) {
                 String message = "Could not load file: " + selectedFile;
                 log(message);
                 JOptionPane.showMessageDialog(frame, message, "Loading error", JOptionPane.ERROR_MESSAGE);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(frame, e.getMessage(), "Loading error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }

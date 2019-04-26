@@ -31,17 +31,21 @@ public class PublicKey implements Key {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (int d : p.getDigits()) {
-            sb.append(d);
+        for (int i = p.getDigits().length - 1; i > 0; i--) {
+            sb.append(p.getDigits()[i]);
         }
         sb.append("%");
-        for (int d : g.getDigits()) {
-            sb.append(d);
+        for (int i = g.getDigits().length - 1; i > 0; i--) {
+            sb.append(g.getDigits()[i]);
         }
         sb.append("%");
-        for (int d : h.getDigits()) {
-            sb.append(d);
+        for (int i = h.getDigits().length - 1; i > 0; i--) {
+            sb.append(h.getDigits()[i]);
         }
         return sb.toString();
+    }
+
+    public static String getPattern() {
+        return "^([0-9]+)\\%([0-9]+)\\%([0-9]+)$";
     }
 }
