@@ -10,13 +10,15 @@ public class Block {
     private int length;
 
     public Block(short[] data, int length) {
-        this.data = new short[2 * length];
-        this.length = length;
-        if (data.length > length) {
-            return;
-        }
-
-        System.arraycopy(data, 0, this.data, length * 2 - data.length, data.length);
+        System.out.println("B:"+Arrays.toString(data));
+        this.data = data;
+//        this.data = new short[2 * length];
+//        this.length = length;
+//        if (data.length > length) {
+//            return;
+//        }
+//
+//        System.arraycopy(data, 0, this.data, length * 2 - data.length, data.length);
     }
 
     public Block(Number number, int length) {

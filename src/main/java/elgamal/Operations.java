@@ -17,19 +17,28 @@ public class Operations {
 
     public static Block[] generateBlocks(byte[] data, int length) {
         List<Block> blocks = new ArrayList<>();
-        short[] split = new short[length];
+        List<Short> split = new ArrayList<>();
         int prepared = 0;
         for (int i = 0; i < data.length; i++) {
-            split[i % length] = (short)((short)data[i] & 0xff);
+            split.add((short)((short)data[i] & 0xff));
             prepared++;
             if (prepared == length * 2) {
-                blocks.add(new Block(split, length));
-                Arrays.fill(split, (short)0);
+                System.out.println("S: " + split);
+                short[] x = new short[split.size()];
+                for (int xi = 0; xi < split.size(); xi++) {
+                    x[xi] = split.get(xi);
+                }
+                blocks.add(new Block(x, length));
+                split.clear();
                 prepared = 0;
             }
         }
         if (prepared > 0) {
-            blocks.add(new Block(split, length));
+            short[] x = new short[split.size()];
+            for (int xi = 0; xi < split.size(); xi++) {
+                x[xi] = split.get(xi);
+            }
+            blocks.add(new Block(x, length));
         }
 
         Block[] output = new Block[blocks.size()];

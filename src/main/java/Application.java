@@ -216,6 +216,7 @@ public class Application {
             encryption.encrypt();
             log("Encryption completed successfully.");
 
+            System.out.println(Arrays.toString(data));
             System.out.println("E Blocks in:");
             for (Block b : blocks) {
                 System.out.println(Arrays.toString(b.getData()));
@@ -255,6 +256,7 @@ public class Application {
             _updateButtons();
 
             log("Preparing decryption...");
+            System.out.println(Arrays.toString(data));
             Block[] blocks = Operations.generateBlocks(data, privateKey.getMaxLength());
             Decryption decryption = new Decryption(blocks, privateKey);
             log("Starting decryption...");
