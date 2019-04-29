@@ -21,13 +21,11 @@ class CryptographyTest {
     @BeforeEach
     void initialize() {
         data = new byte[] { 11, 4, 6, (byte)255 };
-        publicKey = new PublicKey(
-                new Number("1499562501887"),
-                new Number("54412"),
-                new Number("192888196932"));
+        KeyGenerator kg = new KeyGenerator(10);
+        kg.generate();
         block = new Block(data);
-        privateKey = new PrivateKey(new Number("407984421"), publicKey.getP());
-        encryption = new Encryption(new Block[] { block }, publicKey);
+        privateKey = kg.getPrivateKey();
+        encryption = new Encryption(new Block[] { block }, kg.getPublicKey());
     }
 
     @Test
@@ -43,6 +41,5 @@ class CryptographyTest {
         byte[] data = new byte[] { 99, 88, 9, 127, 25, -127, 61, 0, 0, 0 };
         Decryption d = new Decryption(Operations.generateBlocks(data, privateKey.getMaxLength()), privateKey);
         d.decrypt();
-        System.out.println(Arrays.toString(d.getResults()));
     }
 }
