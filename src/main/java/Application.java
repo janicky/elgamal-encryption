@@ -222,7 +222,7 @@ public class Application {
                 System.out.println(Arrays.toString(b.getData()));
             }
 
-            byte[] bytes = Operations.blocksToBytes(encryption.getResults());
+            byte[] bytes = Operations.blocksToBytes(encryption.getResults(), publicKey.getMaxLength());
 
             if (loadedFromFile) {
                 JFileChooser keyChooser = new JFileChooser();
@@ -264,7 +264,7 @@ public class Application {
             try {
                 decryption.decrypt();
                 log("Decryption completed successfully.");
-                byte[] bytes = Operations.blocksToBytes(decryption.getResults());
+                byte[] bytes = Operations.blocksToBytes(decryption.getResults(), privateKey.getMaxLength());
 
                 System.out.println("D Blocks in:");
                 for (Block b : blocks) {

@@ -42,19 +42,15 @@ public class Operations {
         return blocks;
     }
 
-    public static byte[] blocksToBytes(Block[] blocks) {
-        return new byte[2];
+    public static byte[] blocksToBytes(Block[] blocks, int length) {
+        byte[] output = new byte[blocks.length * length];
+        int n = 0;
+        for (Block b : blocks) {
+            byte[] data = b.getData();
+            for (int i = 0; i < data.length; i++) {
+                output[n++] = (byte)(data[i] & 0xff);
+            }
+        }
+        return output;
     }
-
-//    public static byte[] blocksToBytes(Block[] blocks, int length) {
-//        byte[] output = new byte[blocks.length * length * 2];
-//        int n = 0;
-//        for (Block b : blocks) {
-//            short[] data = b.getData();
-//            for (int i = 0; i < data.length; i++) {
-//                output[n++] = (byte)(data[i] & 0xff);
-//            }
-//        }
-//        return output;
-//    }
 }
