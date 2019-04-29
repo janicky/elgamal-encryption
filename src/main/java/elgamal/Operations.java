@@ -18,14 +18,15 @@ public class Operations {
         for (i = 0; i < data.length; i++) {
             tmp[i % length] = data[i];
 
+
             if (i % length == length - 1) {
-                Number number = new Number(tmp);
+                Number number = new Number(tmp.clone());
                 blocks[b++] = new Block(number, length);
                 Arrays.fill(tmp, (byte)0);
             }
         }
 
-        if (i % length != length - 1) {
+        if (i % length != 0) {
             int ptr = 0;
             byte[] f_block = new byte[length];
             Arrays.fill(f_block, (byte)0);
