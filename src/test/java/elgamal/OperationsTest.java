@@ -27,7 +27,7 @@ class OperationsTest {
 
     @Test
     void blocksToBytes() {
-        byte[] bytes = Operations.blocksToBytes(blocks, length);
+        byte[] bytes = Operations.blocksToBytes(blocks);
         assertArrayEquals(data, bytes);
     }
 
