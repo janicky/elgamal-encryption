@@ -40,4 +40,8 @@ public class PrivateKey implements Key {
     public int getMaxLength() {
         return p.toString().length() - 1;
     }
+
+    public int getFillSize() {
+        return getMaxLength() * 3;
+    }
 }
