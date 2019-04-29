@@ -27,13 +27,9 @@ public class PrivateKey implements Key {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (int d : a.getDigits()) {
-            sb.append(d);
-        }
+        sb.append(a.toString());
         sb.append("%");
-        for (int d : p.getDigits()) {
-            sb.append(d);
-        }
+        sb.append(p.toString());
         return sb.toString();
     }
 

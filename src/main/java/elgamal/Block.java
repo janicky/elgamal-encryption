@@ -69,7 +69,6 @@ public class Block {
             output[i] = tmp.get(i);
         }
 
-
         data = new short[length * 2];
         System.arraycopy(output, 0, data, length * 2 - output.length, output.length);
     }

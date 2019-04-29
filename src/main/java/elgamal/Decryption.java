@@ -33,10 +33,10 @@ public class Decryption extends Cryptography {
             Number m = null;
             try {
                 c1 = c1.modPower(a, p);
-                if (c1.isZero()) {
+                if (c1.equals(Number.ZERO)) {
                     m = Number.ZERO;
                 } else {
-                    m = c2.divide(c1, new Number("0"));
+                    m = c2.divide(c1);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

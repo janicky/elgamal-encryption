@@ -51,12 +51,7 @@ public class KeyGenerator {
         int numberLength = number.toString().length();
         for (int i = 0; i < k; i++) {
             a = generateNumber(2, numberLength - 1);
-            Number m = null;
-            try {
-                m = a.modPower(number.subtract(Number.ONE), number);
-            } catch (NegativeNumberException e) {
-                e.printStackTrace();
-            }
+            Number m = a.modPower(number.subtract(Number.ONE), number);
             if (!m.equals(Number.ONE)) {
                 return false;
             }
