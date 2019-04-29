@@ -1,8 +1,6 @@
 package elgamal;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 public class Operations {
@@ -16,17 +14,29 @@ public class Operations {
     }
 
     public static Block[] generateBlocks(byte[] data, int length) {
-        Block[] blocks = new Block[(int)Math.ceil(data.length / length)];
+        Block[] blocks = new Block[(int)Math.ceil(data.length / (double)length)];
 
         byte[] tmp = new byte[length];
-        int ptr = 0;
+        int b = 0, i;
 
-        for (int i = 0; i < data.length; i++) {
+        for (i = 0; i < data.length; i++) {
             tmp[i % length] = data[i];
 
             if (i % length == length - 1) {
-                blocks[ptr++] = new Block(tmp);
+                blocks[b++] = new Block(tmp);
+                Arrays.fill(tmp, (byte)0);
             }
+        }
+
+        if (i % length != length - 1) {
+            int ptr = 0;
+            byte[] f_block = new byte[length];
+            Arrays.fill(f_block, (byte)0);
+            for (int j = length - (i % length); j < length; j++) {
+                f_block[j] = tmp[ptr++];
+            }
+
+            blocks[blocks.length - 1] = new Block(f_block);
         }
 
         return blocks;

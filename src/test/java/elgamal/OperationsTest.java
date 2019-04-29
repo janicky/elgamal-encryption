@@ -15,13 +15,13 @@ class OperationsTest {
 
     @BeforeEach
     void initialize() {
-        data = new byte[] { 1, 2, 3, 15, 1, 2, 3, 16, (byte)255, 100, 99, 98, 2, 1, 1, 9, 5, 1 };
+        data = new byte[] { 1, 2, 3, 15, 1, 2, 3, 16, (byte)255, 100, 99, 98, 2, 1, 1, 9, 5, 1, 2 };
         blocks = Operations.generateBlocks(data, length);
     }
 
     @Test
     void generateBlocks() {
-        final String expected = "[[1,2,3], [15,1,2], [3,16,255], [100,99,98], [2,1,1], [9,5,1]]";
+        final String expected = "[[1,2,3], [15,1,2], [3,16,255], [100,99,98], [2,1,1], [9,5,1], [0,0,2]]";
         assertEquals(expected, Arrays.toString(blocks));
     }
 

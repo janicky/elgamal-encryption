@@ -5,7 +5,7 @@ public class Block {
     private byte[] data;
 
     public Block(byte[] data) {
-        this.data = data;
+        this.data = data.clone();
     }
 
     public Block(Number number) {
@@ -25,7 +25,7 @@ public class Block {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
         for (int i = 0; i < data.length; i++) {
-            sb.append(data[i]);
+            sb.append((data[i] & 0xff));
             if (i != data.length - 1) {
                 sb.append(",");
             }
