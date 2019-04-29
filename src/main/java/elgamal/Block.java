@@ -1,5 +1,7 @@
 package elgamal;
 
+import java.util.Arrays;
+
 public class Block {
 
     private byte[] data;
@@ -10,6 +12,19 @@ public class Block {
 
     public Block(Number number) {
         this(number.getVal());
+    }
+
+    public Block(Number number, int fill) {
+        byte[] out = new byte[fill];
+        byte[] in = number.getVal();
+        Arrays.fill(out, (byte) 0);
+
+        int ptr = 0;
+        for (int i = out.length - in.length; i < out.length; i++){
+            out[i] = in[ptr++];
+        }
+
+        data = out.clone();
     }
 
     public Number getNumber() {
