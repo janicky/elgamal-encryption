@@ -30,17 +30,7 @@ public class Decryption extends Cryptography {
             Number c1 = b1.getNumber();
             Number c2 = b2.getNumber();
 
-            Number m = null;
-            try {
-                c1 = c1.modPower(a, p);
-                if (c1.equals(Number.ZERO)) {
-                    m = Number.ZERO;
-                } else {
-                    m = c2.divide(c1);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            Number m = c2.divide(c1.modPower(a, p));
             results[i] = new Block(m);
         }
     }

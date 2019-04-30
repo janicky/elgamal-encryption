@@ -18,7 +18,7 @@ public class KeyGenerator {
     public void generate() {
         Number prime_number;
         while (true) {
-            prime_number = generateNumber(length, length + 1);
+            prime_number = generateNumber(length, length);
             if (fermatTest(prime_number, 3)) {
                 p = prime_number;
                 break;

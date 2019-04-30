@@ -17,8 +17,6 @@ public class Operations {
 
         for (i = 0; i < data.length; i++) {
             tmp[i % length] = data[i];
-
-
             if (i % length == length - 1) {
                 Number number = new Number(tmp.clone());
                 blocks[b++] = new Block(number, length);

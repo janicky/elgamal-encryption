@@ -1,7 +1,5 @@
 package elgamal;
 
-import java.util.Arrays;
-
 public class Block {
 
     private byte[] data;
@@ -15,23 +13,25 @@ public class Block {
     }
 
     public Block(Number number, int fill) {
-        byte[] out = new byte[fill];
-        byte[] in = number.getVal();
-        Arrays.fill(out, (byte) 0);
-
-        int ptr = 0;
-        for (int i = out.length - in.length; i < out.length; i++){
-            out[i] = in[ptr++];
-        }
-
-        data = out.clone();
+        this(Operations.fillArray(number.getVal(), fill));
     }
 
     public Number getNumber() {
+        if (data[0] < 0) {
+            byte[] tmp = new byte[data.length + 1];
+            tmp[0] = 0;
+            System.arraycopy(data, 0, tmp, 1, data.length);
+            data = tmp;
+        }
         return new Number(data);
     }
 
     public byte[] getData() {
+        if (data[0] == 0) {
+            byte[] tmp = new byte[data.length - 1];
+            System.arraycopy(data, 1, tmp, 0, data.length - 1);
+            return tmp;
+        }
         return data;
     }
 
@@ -40,7 +40,7 @@ public class Block {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
         for (int i = 0; i < data.length; i++) {
-            sb.append((data[i] & 0xff));
+            sb.append(data[i]);
             if (i != data.length - 1) {
                 sb.append(",");
             }

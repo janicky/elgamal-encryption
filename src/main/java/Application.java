@@ -83,6 +83,7 @@ public class Application {
             String selectedFile = inputChooser.getSelectedFile().getPath();
             try {
                 data = DataUtils.loadBytes(selectedFile);
+                System.out.println("IN: " + Arrays.toString(data));
 
                 String message = data.length + " bytes have been loaded.";
                 log("File " + inputChooser.getSelectedFile().getName() + " loaded.");
@@ -101,6 +102,7 @@ public class Application {
     public void inputTextDialog() {
         String input = inputTextArea.getText();
         data = input.getBytes();
+        System.out.println("IN: " + Arrays.toString(data));
         log("Text has been loaded.");
         log(data.length + " bytes have been loaded.");
         loadedFromFile = false;
@@ -218,11 +220,13 @@ public class Application {
 
             System.out.println(Arrays.toString(data));
             System.out.println("E Blocks in:");
-            for (Block b : blocks) {
+            for (Block b : encryption.getResults()) {
                 System.out.println(Arrays.toString(b.getData()));
             }
+            System.out.println("E IN BLOCKS COUNT: " + blocks.length + " / " + blocks[0].getData().length);
 
-            byte[] bytes = Operations.blocksToBytes(encryption.getResults(), publicKey.getMaxLength());
+            byte[] bytes = Operations.blocksToBytes(encryption.getResults(), publicKey.getFillSize());
+            System.out.println("CHUJ --- " + Arrays.toString(bytes));
 
             if (loadedFromFile) {
                 JFileChooser keyChooser = new JFileChooser();
@@ -243,6 +247,7 @@ public class Application {
                 for (Block b : encryption.getResults()) {
                     System.out.println(Arrays.toString(b.getData()));
                 }
+                System.out.println("E OUT BLOCKS COUNT: " + encryption.getResults().length+ " / " + encryption.getResults()[0].getData().length);
                 outputTextArea.setText(new String(bytes));
             }
             canProcess = true;
@@ -257,19 +262,21 @@ public class Application {
 
             log("Preparing decryption...");
             System.out.println(Arrays.toString(data));
-            Block[] blocks = Operations.generateBlocks(data, privateKey.getMaxLength());
+            Block[] blocks = Operations.generateBlocks(outputTextArea.getText().getBytes(), privateKey.getFillSize());
+            System.out.println("KURWA " + blocks.length + " / " + blocks[0].getData().length);
+            System.out.println("D Blocks in:");
+            for (Block b : blocks) {
+                System.out.println(Arrays.toString(b.getData()));
+            }
             Decryption decryption = new Decryption(blocks, privateKey);
             log("Starting decryption...");
 
             try {
                 decryption.decrypt();
                 log("Decryption completed successfully.");
+                System.out.println("D IN BLOCKS COUNT: " + blocks.length+ " / " + blocks[0].getData().length);
                 byte[] bytes = Operations.blocksToBytes(decryption.getResults(), privateKey.getMaxLength());
 
-                System.out.println("D Blocks in:");
-                for (Block b : blocks) {
-                    System.out.println(Arrays.toString(b.getData()));
-                }
 
                 if (loadedFromFile) {
                     JFileChooser keyChooser = new JFileChooser();
@@ -291,6 +298,7 @@ public class Application {
                         System.out.println(Arrays.toString(b.getData()));
                     }
                     outputTextArea.setText(new String(bytes));
+                    System.out.println("D OUT BLOCKS COUNT: " + decryption.getResults().length+ " / " + decryption.getResults()[0].getData().length);
                 }
             } catch (CorruptedDataException e) {
                 String message = "Corrupted data.";
