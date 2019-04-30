@@ -28,7 +28,6 @@ public class Application {
     private JButton importPublicKeyButton;
     private JTextArea log;
     private JLabel infoInputFile;
-    private JLabel infoBlocksCount;
     private JTextArea publicKeyTextarea;
     private JButton exportPublicKeyButton;
     private JButton encryptButton;
@@ -39,6 +38,7 @@ public class Application {
     private JButton importPrivateKeyButton;
     private JButton exportPrivateKeyButton;
     private JTextArea privateKeyTextarea;
+    private JButton setAsInputButton;
     private DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
 //    Model
@@ -46,6 +46,7 @@ public class Application {
     private JFileChooser inputChooser;
     private PrivateKey privateKey;
     private PublicKey publicKey;
+    private byte[] results;
     private boolean canProcess = false;
     private boolean loadedFromFile = false;
 
@@ -74,6 +75,7 @@ public class Application {
         importPublicKeyButton.addActionListener(e -> importCipherKey(true));
         exportPrivateKeyButton.addActionListener(e -> exportCipherKey(false));
         importPrivateKeyButton.addActionListener(e -> importCipherKey(false));
+        setAsInputButton.addActionListener(e -> setAsInput());
         encryptButton.addActionListener(e -> encrypt());
         decryptButton.addActionListener(e -> decrypt());
     }
@@ -104,7 +106,7 @@ public class Application {
     public void inputTextDialog() {
         String input = inputTextArea.getText();
         try {
-            data = input.getBytes("UTF-16BE");
+            data = input.getBytes("UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -212,6 +214,11 @@ public class Application {
         updateButtons();
     }
 
+    private void setAsInput() {
+        data = results;
+        log("Results are now input data.");
+    }
+
     private void encrypt() {
         if (publicKey != null) {
             canProcess = false;
@@ -232,6 +239,7 @@ public class Application {
             System.out.println("E IN BLOCKS COUNT: " + blocks.length + " / " + blocks[0].getData().length);
 
             byte[] bytes = Operations.blocksToBytes(encryption.getResults(), publicKey.getFillSize());
+            results = bytes;
 
             if (loadedFromFile) {
                 JFileChooser keyChooser = new JFileChooser();
@@ -255,7 +263,7 @@ public class Application {
                 System.out.println("E OUT BLOCKS COUNT: " + encryption.getResults().length+ " / " + encryption.getResults()[0].getData().length);
                 System.out.println("DATA OUT: " + Arrays.toString(bytes));
 
-                outputTextArea.setText(new String(bytes, StandardCharsets.UTF_16BE));
+                outputTextArea.setText(new String(bytes, StandardCharsets.UTF_8));
             }
             canProcess = true;
             _updateButtons();
@@ -304,7 +312,7 @@ public class Application {
                     for (Block b : decryption.getResults()) {
                         System.out.println(Arrays.toString(b.getData()));
                     }
-                    outputTextArea.setText(new String(bytes));
+                    outputTextArea.setText(new String(bytes, StandardCharsets.UTF_8));
                     System.out.println("D OUT BLOCKS COUNT: " + decryption.getResults().length+ " / " + decryption.getResults()[0].getData().length);
                     System.out.println("DATA OUT: " + Arrays.toString(bytes));
                 }
@@ -343,6 +351,7 @@ public class Application {
             encryptButton.setEnabled(false);
             decryptButton.setEnabled(false);
         }
+        setAsInputButton.setEnabled(results != null && results.length > 0);
     }
 
     private void log(String message) {

@@ -12,7 +12,7 @@ public class Block {
     }
 
     public Block(byte[] data, int fill) {
-        this(data);
+        this(Operations.fillArray(data, fill));
         this.fill = fill;
     }
 
@@ -22,6 +22,7 @@ public class Block {
     }
 
     public Number getNumber() {
+        System.out.println("GET NUMBER: " + Arrays.toString(data) + " / " + data.length);
         if (data[0] < 0) {
             byte[] tmp = new byte[data.length + 1];
             tmp[0] = 0;
@@ -32,7 +33,8 @@ public class Block {
     }
 
     public byte[] getData() {
-        if (data[0] == 0 && data.length > fill) {
+        System.out.println("GET DATA: " + Arrays.toString(data) + " / " + data.length + " / " + fill);
+        if (data.length > 1 && data[0] == 0 && data[1] < 0) {
             byte[] tmp = new byte[data.length - 1];
             System.out.println(data.length + " REDUCED TO " + tmp.length);
             System.arraycopy(data, 1, tmp, 0, data.length - 1);
