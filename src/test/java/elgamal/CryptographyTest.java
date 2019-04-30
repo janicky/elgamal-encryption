@@ -24,9 +24,9 @@ class CryptographyTest {
         data = new byte[] { 11, 4, 6, (byte)255 };
         KeyGenerator kg = new KeyGenerator(6);
         kg.generate();
-        block = new Block(data);
         privateKey = kg.getPrivateKey();
         publicKey = kg.getPublicKey();
+        block = new Block(data, privateKey.getMaxLength());
         encryption = new Encryption(new Block[] { block }, publicKey);
     }
 
@@ -36,7 +36,8 @@ class CryptographyTest {
         System.out.println(Arrays.toString(encryption.getResults()));
         Decryption d = new Decryption(encryption.getResults(), privateKey);
         d.decrypt();
-        assertArrayEquals(data, d.getResults()[0].getData());
+        byte[] expected = { 0, 11, 4, 6, (byte)255 };
+        assertArrayEquals(expected, d.getResults()[0].getData());
     }
 
     @Test

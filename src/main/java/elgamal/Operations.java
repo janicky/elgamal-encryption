@@ -33,7 +33,7 @@ public class Operations {
             }
 
             Number number = new Number(f_block);
-            blocks[blocks.length - 1] = new Block(number);
+            blocks[blocks.length - 1] = new Block(number, length);
         }
 
         return blocks;
@@ -53,6 +53,9 @@ public class Operations {
     }
 
     public static byte[] fillArray(byte[] data, int length) {
+        if (data.length > length) {
+            return data;
+        }
         byte[] out = new byte[length];
         Arrays.fill(out, (byte) 0);
 

@@ -184,7 +184,7 @@
                         </constraints>
                         <properties>
                           <foreground color="-1"/>
-                          <text value="ElGamal Encryption"/>
+                          <text value="ElGamal encryption and decryption"/>
                         </properties>
                       </component>
                     </children>
@@ -229,7 +229,9 @@
                             <preferred-size width="150" height="50"/>
                           </grid>
                         </constraints>
-                        <properties/>
+                        <properties>
+                          <editable value="false"/>
+                        </properties>
                       </component>
                     </children>
                   </grid>

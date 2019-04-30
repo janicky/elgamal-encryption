@@ -1,19 +1,24 @@
 package elgamal;
 
+import java.util.Arrays;
+
 public class Block {
 
     private byte[] data;
+    public int fill = -1;
 
     public Block(byte[] data) {
         this.data = data.clone();
     }
 
-    public Block(Number number) {
-        this(number.getVal());
+    public Block(byte[] data, int fill) {
+        this(data);
+        this.fill = fill;
     }
 
     public Block(Number number, int fill) {
         this(Operations.fillArray(number.getVal(), fill));
+        this.fill = fill;
     }
 
     public Number getNumber() {
@@ -27,8 +32,9 @@ public class Block {
     }
 
     public byte[] getData() {
-        if (data[0] == 0) {
+        if (data[0] == 0 && data.length > fill) {
             byte[] tmp = new byte[data.length - 1];
+            System.out.println(data.length + " REDUCED TO " + tmp.length);
             System.arraycopy(data, 1, tmp, 0, data.length - 1);
             return tmp;
         }

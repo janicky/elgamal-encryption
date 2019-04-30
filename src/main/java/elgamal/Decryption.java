@@ -31,7 +31,7 @@ public class Decryption extends Cryptography {
             Number c2 = b2.getNumber();
 
             Number m = c2.divide(c1.modPower(a, p));
-            results[i] = new Block(m);
+            results[i] = new Block(m.getVal());
         }
     }
 

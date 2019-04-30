@@ -3,8 +3,6 @@ package elgamal;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class BlockTest {
@@ -16,13 +14,6 @@ class BlockTest {
     void initialize() {
         data = new byte[] { 12, 25, 5, 99, 10 };
         block = new Block(data);
-    }
-
-    @Test
-    void numberConstructor() {
-        Number number = new Number(data);
-        block = new Block(number);
-        assertArrayEquals(data, block.getData());
     }
 
     @Test

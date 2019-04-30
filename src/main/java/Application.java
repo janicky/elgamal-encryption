@@ -9,6 +9,8 @@ import javax.swing.*;
 import javax.swing.text.DefaultCaret;
 import java.awt.*;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -101,7 +103,11 @@ public class Application {
 
     public void inputTextDialog() {
         String input = inputTextArea.getText();
-        data = input.getBytes();
+        try {
+            data = input.getBytes("UTF-16BE");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         System.out.println("IN: " + Arrays.toString(data));
         log("Text has been loaded.");
         log(data.length + " bytes have been loaded.");
@@ -218,15 +224,14 @@ public class Application {
             encryption.encrypt();
             log("Encryption completed successfully.");
 
-            System.out.println(Arrays.toString(data));
+            System.out.println("DATA IN: " + Arrays.toString(data));
             System.out.println("E Blocks in:");
-            for (Block b : encryption.getResults()) {
+            for (Block b : blocks) {
                 System.out.println(Arrays.toString(b.getData()));
             }
             System.out.println("E IN BLOCKS COUNT: " + blocks.length + " / " + blocks[0].getData().length);
 
             byte[] bytes = Operations.blocksToBytes(encryption.getResults(), publicKey.getFillSize());
-            System.out.println("CHUJ --- " + Arrays.toString(bytes));
 
             if (loadedFromFile) {
                 JFileChooser keyChooser = new JFileChooser();
@@ -248,7 +253,9 @@ public class Application {
                     System.out.println(Arrays.toString(b.getData()));
                 }
                 System.out.println("E OUT BLOCKS COUNT: " + encryption.getResults().length+ " / " + encryption.getResults()[0].getData().length);
-                outputTextArea.setText(new String(bytes));
+                System.out.println("DATA OUT: " + Arrays.toString(bytes));
+
+                outputTextArea.setText(new String(bytes, StandardCharsets.UTF_16BE));
             }
             canProcess = true;
             _updateButtons();
@@ -261,13 +268,13 @@ public class Application {
             _updateButtons();
 
             log("Preparing decryption...");
-            System.out.println(Arrays.toString(data));
-            Block[] blocks = Operations.generateBlocks(outputTextArea.getText().getBytes(), privateKey.getFillSize());
-            System.out.println("KURWA " + blocks.length + " / " + blocks[0].getData().length);
+            Block[] blocks = Operations.generateBlocks(data, privateKey.getFillSize());
+            System.out.println("DATA IN: " + Arrays.toString(data));
             System.out.println("D Blocks in:");
             for (Block b : blocks) {
                 System.out.println(Arrays.toString(b.getData()));
             }
+            System.out.println("E IN BLOCKS COUNT: " + blocks.length + " / " + blocks[0].getData().length);
             Decryption decryption = new Decryption(blocks, privateKey);
             log("Starting decryption...");
 
@@ -299,6 +306,7 @@ public class Application {
                     }
                     outputTextArea.setText(new String(bytes));
                     System.out.println("D OUT BLOCKS COUNT: " + decryption.getResults().length+ " / " + decryption.getResults()[0].getData().length);
+                    System.out.println("DATA OUT: " + Arrays.toString(bytes));
                 }
             } catch (CorruptedDataException e) {
                 String message = "Corrupted data.";
